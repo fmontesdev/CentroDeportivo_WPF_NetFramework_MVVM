@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36705.20
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "View", "CentroDeportivo\View.csproj", "{9AEF4931-D9BA-46F8-A709-B8CCDDE9F79C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{6DD7FBB3-647D-41DC-A846-4BC45EAB677F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{024DF905-D2E3-4431-93A8-454CF4E0366F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AEF4931-D9BA-46F8-A709-B8CCDDE9F79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AEF4931-D9BA-46F8-A709-B8CCDDE9F79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AEF4931-D9BA-46F8-A709-B8CCDDE9F79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AEF4931-D9BA-46F8-A709-B8CCDDE9F79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DD7FBB3-647D-41DC-A846-4BC45EAB677F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DD7FBB3-647D-41DC-A846-4BC45EAB677F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DD7FBB3-647D-41DC-A846-4BC45EAB677F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DD7FBB3-647D-41DC-A846-4BC45EAB677F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{024DF905-D2E3-4431-93A8-454CF4E0366F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{024DF905-D2E3-4431-93A8-454CF4E0366F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{024DF905-D2E3-4431-93A8-454CF4E0366F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{024DF905-D2E3-4431-93A8-454CF4E0366F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8487A3B5-4B8A-4C07-817D-55A340847F7B}
+	EndGlobalSection
+EndGlobal
