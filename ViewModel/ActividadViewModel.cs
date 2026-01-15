@@ -111,11 +111,18 @@ namespace ViewModel
             EliminarCommand = new RelayCommand(EliminarActividad);
 
             // Cargar actividades al inicializar
-            CargarActividades();
+            InicializarAsync();
+        }
+
+        // Inicializa la carga de datos de forma asíncrona
+        public async void InicializarAsync()
+        {
+            await CargarActividadesAsync();
+            SeleccionarPrimero();
         }
 
         // Carga la lista de actividades desde la base de datos
-        private async void CargarActividades()
+        private async Task CargarActividadesAsync()
         {
             try
             {
@@ -134,6 +141,63 @@ namespace ViewModel
             catch (Exception ex)
             {
                 ErrorMessage = $"Error al cargar actividades: {ex.Message}";
+            }
+        }
+
+        // Selecciona la primera actividad de la lista
+        private void SeleccionarPrimero()
+        {
+            if (Actividades.Count > 0)
+            {
+                ActividadSeleccionada = Actividades[0];
+            }
+            else
+            {
+                ActividadSeleccionada = null;
+            }
+        }
+
+        // Mantiene la selección de la actividad en el índice especificado
+        // Si el índice es inválido, selecciona la primera
+        private void MantieneSeleccion(int indice)
+        {
+            if (Actividades.Count == 0)
+            {
+                ActividadSeleccionada = null;
+            }
+            else if (indice >= 0 && indice < Actividades.Count)
+            {
+                ActividadSeleccionada = Actividades[indice];
+            }
+            else
+            {
+                SeleccionarPrimero();
+            }
+        }
+
+        // Selecciona la actividad anterior al índice especificado al eliminar
+        // Si se eliminó la primera, selecciona la nueva primera
+        // Si no quedan actividades, no selecciona ninguna
+        private void SeleccionaAnterior(int indiceEliminado)
+        {
+            if (Actividades.Count == 0)
+            {
+                ActividadSeleccionada = null;
+            }
+            else if (indiceEliminado == 0)
+            {
+                // Se eliminó la primera, seleccionar la nueva primera
+                ActividadSeleccionada = Actividades[0];
+            }
+            else
+            {
+                // Seleccionar la anterior, pero asegurarse de no exceder los límites
+                int nuevoIndice = indiceEliminado - 1;
+                if (nuevoIndice >= Actividades.Count)
+                {
+                    nuevoIndice = Actividades.Count - 1;
+                }
+                ActividadSeleccionada = Actividades[nuevoIndice];
             }
         }
 
@@ -157,12 +221,19 @@ namespace ViewModel
                 {
                     ErrorMessage = string.Empty;
 
+                    // Guardar el índice de la actividad seleccionada para mantener la selección
+                    int indiceActividadActual = Actividades.IndexOf(ActividadSeleccionada);
+
                     // Actualizar propiedades de la actividad seleccionada
                     ActividadSeleccionada.Nombre = Nombre.Trim();
                     ActividadSeleccionada.AforoMaximo = int.Parse(AforoMaximo.Trim());
 
                     // Guardar en base de datos
                     await _actividadService.ActualizarActividadAsync(ActividadSeleccionada);
+                    
+                    // Recargar y mantener la selección de la actividad editada
+                    await CargarActividadesAsync();
+                    MantieneSeleccion(indiceActividadActual);
                 }
                 catch (ArgumentException ex)
                 {
@@ -183,9 +254,11 @@ namespace ViewModel
                 ErrorMessage = "No hay ninguna actividad seleccionada para eliminar";
                 return;
             }
-
-            ErrorMessage = string.Empty;
-            ConfirmarEliminar?.Invoke((ActividadSeleccionada.IdActividad, ActividadSeleccionada.Nombre));
+            else
+            {
+                ErrorMessage = string.Empty;
+                ConfirmarEliminar?.Invoke((ActividadSeleccionada.IdActividad, ActividadSeleccionada.Nombre));
+            }
         }
 
         // Confirma y ejecuta la eliminación de la actividad
@@ -193,22 +266,22 @@ namespace ViewModel
         {
             try
             {
-                // Buscar la actividad en la colección local
-                var actividad = Actividades.FirstOrDefault(a => a.IdActividad == idActividad);
-                if (actividad == null)
+                // Usar el objeto ActividadSeleccionada que ya tenemos disponible
+                if (ActividadSeleccionada == null || ActividadSeleccionada.IdActividad != idActividad)
                 {
-                    ErrorMessage = "No se encontró la actividad a eliminar";
-                    return;
+                    ErrorMessage = "La actividad seleccionada no coincide con la actividad a eliminar";
                 }
+                else
+                {
+                    // Guardar el índice de la actividad que vamos a eliminar
+                    int indiceActividadEliminada = Actividades.IndexOf(ActividadSeleccionada);
 
-                await _actividadService.EliminarActividadAsync(actividad);
+                    await _actividadService.EliminarActividadAsync(ActividadSeleccionada);
 
-                // Eliminar de la colección local
-                Actividades.Remove(actividad);
-                ActividadSeleccionada = null;
-                LimpiarFormulario();
-
-                OnPropertyChanged(nameof(TotalActividades));
+                    // Recargar y seleccionar la actividad anterior
+                    await CargarActividadesAsync();
+                    SeleccionaAnterior(indiceActividadEliminada);
+                }
             }
             catch (InvalidOperationException ex)
             {
@@ -270,14 +343,6 @@ namespace ViewModel
         {
             Nombre = string.Empty;
             AforoMaximo = string.Empty;
-        }
-
-        // Recarga la lista después de crear una actividad desde la ventana modal
-        public void ActualizarListaDespuesDeCrear()
-        {
-            CargarActividades();
-            LimpiarFormulario();
-            ActividadSeleccionada = null;
         }
 
         // Actions para comunicar con la Vista (más simple que eventos)

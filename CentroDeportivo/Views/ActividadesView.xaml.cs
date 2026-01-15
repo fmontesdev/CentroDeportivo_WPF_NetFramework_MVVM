@@ -44,7 +44,7 @@ namespace CentroDeportivo.Views
             if (ventana.ShowDialog() == true)
             {
                 // Recargar la lista de actividades
-                ((ActividadViewModel)this.DataContext).ActualizarListaDespuesDeCrear();
+                ((ActividadViewModel)this.DataContext).InicializarAsync();
             }
         }
 

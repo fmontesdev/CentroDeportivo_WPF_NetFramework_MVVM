@@ -44,7 +44,7 @@ namespace CentroDeportivo.Views
             if (ventana.ShowDialog() == true)
             {
                 // Recargar la lista de socios
-                ((SocioViewModel)this.DataContext).ActualizarListaDespuesDeCrear();
+                ((SocioViewModel)this.DataContext).InicializarAsync();
             }
         }
 

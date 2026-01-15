@@ -112,11 +112,18 @@ namespace ViewModel
             EliminarCommand = new RelayCommand(EliminarSocio);
 
             // Cargar socios al inicializar
-            CargarSocios();
+            InicializarAsync();
+        }
+
+        // Inicializa la carga de datos de forma asíncrona
+        public async void InicializarAsync()
+        {
+            await CargarSociosAsync();
+            SeleccionarPrimero();
         }
 
         // Carga la lista de socios desde la base de datos
-        private async void CargarSocios()
+        private async Task CargarSociosAsync()
         {
             try
             {
@@ -135,6 +142,63 @@ namespace ViewModel
             catch (Exception ex)
             {
                 ErrorMessage = $"Error al cargar socios: {ex.Message}";
+            }
+        }
+
+        // Selecciona el primer socio de la lista
+        private void SeleccionarPrimero()
+        {
+            if (Socios.Count > 0)
+            {
+                SocioSeleccionado = Socios[0];
+            }
+            else
+            {
+                SocioSeleccionado = null;
+            }
+        }
+
+        // Mantiene la selección del socio en el índice especificado
+        // Si el índice es inválido, selecciona el primero
+        private void MantieneSeleccion(int indice)
+        {
+            if (Socios.Count == 0)
+            {
+                SocioSeleccionado = null;
+            }
+            else if (indice >= 0 && indice < Socios.Count)
+            {
+                SocioSeleccionado = Socios[indice];
+            }
+            else
+            {
+                SeleccionarPrimero();
+            }
+        }
+
+        // Selecciona el socio anterior al índice especificado al eliminar
+        // Si se eliminó el primero, selecciona el nuevo primero
+        // Si no quedan socios, no selecciona ninguno
+        private void SeleccionaAnterior(int indiceEliminado)
+        {
+            if (Socios.Count == 0)
+            {
+                SocioSeleccionado = null;
+            }
+            else if (indiceEliminado == 0)
+            {
+                // Se eliminó el primero, seleccionar el nuevo primero
+                SocioSeleccionado = Socios[0];
+            }
+            else
+            {
+                // Seleccionar el anterior, pero asegurarse de no exceder los límites
+                int nuevoIndice = indiceEliminado - 1;
+                if (nuevoIndice >= Socios.Count)
+                {
+                    nuevoIndice = Socios.Count - 1;
+                }
+                SocioSeleccionado = Socios[nuevoIndice];
             }
         }
 
@@ -158,12 +222,19 @@ namespace ViewModel
                 {
                     ErrorMessage = string.Empty;
 
+                    // Guardar el índice del socio seleccionado para mantener la selección
+                    int indiceSocioActual = Socios.IndexOf(SocioSeleccionado);
+
                     // Actualizar propiedades del socio seleccionado
                     SocioSeleccionado.Nombre = Nombre.Trim();
                     SocioSeleccionado.Email = Email.Trim();
 
                     // Guardar en base de datos
                     await _socioService.ActualizarSocioAsync(SocioSeleccionado);
+                    
+                    // Recargar y mantener la selección del socio editado
+                    await CargarSociosAsync();
+                    MantieneSeleccion(indiceSocioActual);
                 }
                 catch (ArgumentException ex)
                 {
@@ -184,9 +255,11 @@ namespace ViewModel
                 ErrorMessage = "No hay ningún socio seleccionado para eliminar";
                 return;
             }
-
-            ErrorMessage = string.Empty;
-            ConfirmarEliminar?.Invoke((SocioSeleccionado.IdSocio, SocioSeleccionado.Nombre));
+            else
+            {
+                ErrorMessage = string.Empty;
+                ConfirmarEliminar?.Invoke((SocioSeleccionado.IdSocio, SocioSeleccionado.Nombre));
+            }
         }
 
         // Confirma y ejecuta la eliminación del socio
@@ -194,22 +267,22 @@ namespace ViewModel
         {
             try
             {
-                // Buscar el socio en la colección local
-                var socio = Socios.FirstOrDefault(s => s.IdSocio == idSocio);
-                if (socio == null)
+                // Usar el objeto SocioSeleccionado que ya tenemos disponible
+                if (SocioSeleccionado == null || SocioSeleccionado.IdSocio != idSocio)
                 {
-                    ErrorMessage = "No se encontró el socio a eliminar";
-                    return;
+                    ErrorMessage = "El socio seleccionado no coincide con el socio a eliminar";
                 }
+                else
+                {
+                    // Guardar el índice del socio que vamos a eliminar
+                    int indiceSocioEliminado = Socios.IndexOf(SocioSeleccionado);
 
-                await _socioService.EliminarSocioAsync(socio);
+                    await _socioService.EliminarSocioAsync(SocioSeleccionado);
 
-                // Eliminar de la colección local
-                Socios.Remove(socio);
-                SocioSeleccionado = null;
-                LimpiarFormulario();
-
-                OnPropertyChanged(nameof(TotalSocios));
+                    // Recargar y seleccionar el socio anterior
+                    await CargarSociosAsync();
+                    SeleccionaAnterior(indiceSocioEliminado);
+                }
             }
             catch (InvalidOperationException ex)
             {
@@ -268,14 +341,6 @@ namespace ViewModel
         {
             Nombre = string.Empty;
             Email = string.Empty;
-        }
-
-        // Recarga la lista después de crear un socio desde la ventana modal
-        public void ActualizarListaDespuesDeCrear()
-        {
-            CargarSocios();
-            LimpiarFormulario();
-            SocioSeleccionado = null;
         }
 
         // Actions para comunicar con la Vista (más simple que eventos)

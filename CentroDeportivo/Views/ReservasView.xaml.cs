@@ -44,7 +44,7 @@ namespace CentroDeportivo.Views
             if (ventana.ShowDialog() == true)
             {
                 // Recargar la lista de reservas
-                ((ReservaViewModel)this.DataContext).ActualizarListaDespuesDeCrear();
+                ((ReservaViewModel)this.DataContext).InicializarAsync();
             }
         }
 

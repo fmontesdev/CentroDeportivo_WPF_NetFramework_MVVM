@@ -160,11 +160,18 @@ namespace ViewModel
             ActividadNombre = "Actividad";
 
             // Cargar reservas al inicializar
-            CargarReservas();
+            InicializarAsync();
+        }
+
+        // Inicializa la carga de datos de forma asíncrona
+        public async void InicializarAsync()
+        {
+            await CargarReservasAsync();
+            SeleccionarPrimero();
         }
 
         // Carga la lista de reservas desde la base de datos
-        private async void CargarReservas()
+        private async Task CargarReservasAsync()
         {
             try
             {
@@ -184,6 +191,63 @@ namespace ViewModel
             catch (Exception ex)
             {
                 ErrorMessage = $"Error al cargar reservas: {ex.Message}";
+            }
+        }
+
+        // Selecciona la primera reserva de la lista
+        private void SeleccionarPrimero()
+        {
+            if (Reservas.Count > 0)
+            {
+                ReservaSeleccionada = Reservas[0];
+            }
+            else
+            {
+                ReservaSeleccionada = null;
+            }
+        }
+
+        // Mantiene la selección de la reserva en el índice especificado
+        // Si el índice es inválido, selecciona la primera
+        private void MantieneSeleccion(int indice)
+        {
+            if (Reservas.Count == 0)
+            {
+                ReservaSeleccionada = null;
+            }
+            else if (indice >= 0 && indice < Reservas.Count)
+            {
+                ReservaSeleccionada = Reservas[indice];
+            }
+            else
+            {
+                SeleccionarPrimero();
+            }
+        }
+
+        // Selecciona la reserva anterior al índice especificado al eliminar
+        // Si se eliminó la primera, selecciona la nueva primera
+        // Si no quedan reservas, no selecciona ninguna
+        private void SeleccionaAnterior(int indiceEliminado)
+        {
+            if (Reservas.Count == 0)
+            {
+                ReservaSeleccionada = null;
+            }
+            else if (indiceEliminado == 0)
+            {
+                // Se eliminó la primera, seleccionar la nueva primera
+                ReservaSeleccionada = Reservas[0];
+            }
+            else
+            {
+                // Seleccionar la anterior, pero asegurarse de no exceder los límites
+                int nuevoIndice = indiceEliminado - 1;
+                if (nuevoIndice >= Reservas.Count)
+                {
+                    nuevoIndice = Reservas.Count - 1;
+                }
+                ReservaSeleccionada = Reservas[nuevoIndice];
             }
         }
 
@@ -249,14 +313,18 @@ namespace ViewModel
                 {
                     ErrorMessage = string.Empty;
 
+                    // Guardar el índice de la reserva seleccionada para mantener la selección
+                    int indiceReservaActual = Reservas.IndexOf(ReservaSeleccionada);
+
                     // Actualizar propiedades de la reserva seleccionada
                     ReservaSeleccionada.Fecha = FechaReserva.Value;
 
                     // Guardar en base de datos
                     await _reservaService.ActualizarReservaAsync(ReservaSeleccionada);
                     
-                    // Recargar para refrescar los datos
-                    CargarReservas();
+                    // Recargar y mantener la selección de la reserva editada
+                    await CargarReservasAsync();
+                    MantieneSeleccion(indiceReservaActual);
                 }
                 catch (ArgumentException ex)
                 {
@@ -275,15 +343,17 @@ namespace ViewModel
             if (ReservaSeleccionada == null)
             {
                 ErrorMessage = "No hay ninguna reserva seleccionada para cancelar";
-                return;
             }
+            else
+            {
+                ErrorMessage = string.Empty;
 
-            ErrorMessage = string.Empty;
-            ConfirmarCancelar?.Invoke((
-                ReservaSeleccionada.IdReserva, 
-                ReservaSeleccionada.Socio?.Nombre ?? "Desconocido",
-                ReservaSeleccionada.Actividad?.Nombre ?? "Desconocida"
-            ));
+                ConfirmarCancelar?.Invoke((
+                    ReservaSeleccionada.IdReserva,
+                    ReservaSeleccionada.Socio?.Nombre ?? "Desconocido",
+                    ReservaSeleccionada.Actividad?.Nombre ?? "Desconocida"
+                ));
+            }
         }
 
         // Confirma y ejecuta la cancelación de la reserva
@@ -291,23 +361,22 @@ namespace ViewModel
         {
             try
             {
-                // Buscar la reserva en la colección local
-                var reserva = Reservas.FirstOrDefault(r => r.IdReserva == idReserva);
-                if (reserva == null)
+                // Usar el objeto ReservaSeleccionada que ya tenemos disponible
+                if (ReservaSeleccionada == null || ReservaSeleccionada.IdReserva != idReserva)
                 {
-                    ErrorMessage = "No se encontró la reserva a cancelar";
-                    return;
+                    ErrorMessage = "La reserva seleccionada no coincide con la reserva a cancelar";
                 }
+                else
+                {
+                    // Guardar el índice de la reserva que vamos a eliminar
+                    int indiceReservaEliminada = Reservas.IndexOf(ReservaSeleccionada);
 
-                await _reservaService.EliminarReservaAsync(reserva);
+                    await _reservaService.EliminarReservaAsync(ReservaSeleccionada);
 
-                // Eliminar de la colección local
-                Reservas.Remove(reserva);
-                _todasLasReservas.Remove(reserva);
-                ReservaSeleccionada = null;
-                LimpiarFormulario();
-
-                OnPropertyChanged(nameof(TotalReservas));
+                    // Recargar y seleccionar la reserva anterior
+                    await CargarReservasAsync();
+                    SeleccionaAnterior(indiceReservaEliminada);
+                }
             }
             catch (Exception ex)
             {
@@ -340,14 +409,6 @@ namespace ViewModel
             FechaReserva = null;
             SocioNombre = "Socio";
             ActividadNombre = "Actividad";
-        }
-
-        // Recarga la lista después de crear una reserva desde la ventana modal
-        public void ActualizarListaDespuesDeCrear()
-        {
-            CargarReservas();
-            LimpiarFormulario();
-            ReservaSeleccionada = null;
         }
 
         // Actions para comunicar con la Vista (más simple que eventos)
