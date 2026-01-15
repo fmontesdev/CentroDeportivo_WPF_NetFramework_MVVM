@@ -142,12 +142,11 @@
                     <!-- Logo/Título -->
                     <StackPanel Orientation="Horizontal" 
                                Margin="15,10,0,13">
-                        <TextBlock Text="&#xE774;" 
-                                  FontFamily="Segoe MDL2 Assets"
+                        <TextBlock Text="💪" 
                                   FontSize="18" 
                                   Foreground="#4D9FFF"
                                   VerticalAlignment="Center"
-                                  Margin="0,4,13,0"/>
+                                  Margin="0,0,13,0"/>
                         <TextBlock Text="CDeportivo" 
                                   FontSize="18" 
                                   FontWeight="Bold"
@@ -163,17 +162,18 @@
                     <RadioButton Content="Reservas"
                                 Tag="📋"
                                 Style="{StaticResource SidebarRadioButton}"
-                                Click="BtnReservas_Click"/>                    
+                                Command="{Binding MostrarReservasCommand}"
+                                IsChecked="True"/>                    
                     
                     <RadioButton Content="Socios"
                                 Tag="👥"
                                 Style="{StaticResource SidebarRadioButton}"
-                                Click="BtnClientes_Click"/>
+                                Command="{Binding MostrarSociosCommand}"/>
 
                     <RadioButton Content="Actividades"
-                                Tag="✈️"
+                                Tag="🏃"
                                 Style="{StaticResource SidebarRadioButton}"
-                                Click="BtnViajes_Click"/>
+                                Command="{Binding MostrarActividadesCommand}"/>
 
                     <Separator Margin="0,15" 
                               Background="#2E5670" 
@@ -182,7 +182,7 @@
                     <Button Content="Salir"
                             Tag="🚪"
                             Style="{StaticResource SidebarButton}"
-                            Click="BtnSalir_Click"/>
+                            Command="{Binding SalirCommand}"/>
                 </StackPanel>
             </Border>
 
@@ -194,7 +194,7 @@
                     BorderThickness="0,0,0,1">
 
                 <TextBlock x:Name="txtTitulo"
-                           Text="Centro Deportivo"
+                           Text="{Binding Titulo}"
                            Foreground="#3B7DB8"
                            FontSize="21"
                            FontWeight="Bold"

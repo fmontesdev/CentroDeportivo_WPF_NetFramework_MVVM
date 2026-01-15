@@ -65,7 +65,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Views\ReservasView.xaml.cs">
       <DependentUpon>ReservasView.xaml</DependentUpon>
     </Compile>
@@ -75,11 +74,11 @@
     <Compile Include="Views\ActividadesView.xaml.cs">
       <DependentUpon>ActividadesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\NuevaReservaWindow.xaml.cs">
-      <DependentUpon>NuevaReservaWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\NuevaActividadWindow.xaml.cs">
       <DependentUpon>NuevaActividadWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\NuevaReservaWindow.xaml.cs">
+      <DependentUpon>NuevaReservaWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\NuevoSocioWindow.xaml.cs">
       <DependentUpon>NuevoSocioWindow.xaml</DependentUpon>

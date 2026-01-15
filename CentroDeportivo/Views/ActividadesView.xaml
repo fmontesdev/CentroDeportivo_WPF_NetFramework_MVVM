@@ -1,22 +1,25 @@
-﻿<UserControl x:Class="CentroDeportivo.Views.UserControl3"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:CentroDeportivo.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="660"
-             Loaded="ActividadesView_Loaded">
+﻿<UserControl x:Class="CentroDeportivo.Views.ActividadesView"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+         xmlns:local="clr-namespace:CentroDeportivo.Views"
+         xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
+         mc:Ignorable="d" 
+         d:DesignHeight="600" d:DesignWidth="660">
 
-    <UserControl.Resources>
-        <!-- Estilo para el Border -->
-        <Style x:Key="Border" TargetType="Border">
-            <Setter Property="Background" Value="#FFE7EFF6"/>
-            <Setter Property="CornerRadius" Value="11"/>
-            <Setter Property="Padding" Value="16,11,16,14"/>
-            <Setter Property="BorderBrush" Value="#FFC0D2E3"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
+<UserControl.Resources>
+    <!-- Converter nativo para bool a visibility -->
+    <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        
+    <!-- Estilo para el Border -->
+    <Style x:Key="Border" TargetType="Border">
+        <Setter Property="Background" Value="#FFE7EFF6"/>
+        <Setter Property="CornerRadius" Value="11"/>
+        <Setter Property="Padding" Value="16,11,16,14"/>
+        <Setter Property="BorderBrush" Value="#FFC0D2E3"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
 
         <!-- Estilo para el título de sección -->
         <Style x:Key="SectionTitle" TargetType="TextBlock">
@@ -170,6 +173,7 @@
                                        FontSize="16"
                                        Margin="0,0,8,0"/>
                             <TextBox x:Name="txtNombreActividad" 
+                                     Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"
                                      Grid.Column="1"
                                      Style="{StaticResource InputTextBox}"
                                      MaxLength="100"/>
@@ -187,31 +191,46 @@
                                        FontSize="18"
                                        Margin="0,-3,8,0"/>
                             <TextBox x:Name="txtAforo" 
+                                     Text="{Binding AforoMaximo, UpdateSourceTrigger=PropertyChanged}"
                                      Grid.Column="1"
                                      Style="{StaticResource InputTextBox}"/>
                         </Grid>
                     </Grid>
+
+                    <!-- Mensaje de Error (se muestra solo si HasError es true) -->
+                    <Border Background="#FFFFE0E0" 
+                            BorderBrush="#FFFF6B6B" 
+                            BorderThickness="1" 
+                            CornerRadius="5" 
+                            Padding="8,6"
+                            Margin="0,10,0,0"
+                            Visibility="{Binding HasError, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock Text="{Binding ErrorMessage}" 
+                                   Foreground="#FFD32F2F" 
+                                   FontSize="12" 
+                                   TextWrapping="Wrap"/>
+                    </Border>
 
                     <!-- Botones de acción -->
                     <StackPanel Orientation="Horizontal" 
                                 HorizontalAlignment="Center"
                                 Margin="0,15,0,2">
                         <Button Content="Nuevo" 
+                                Command="{Binding NuevoCommand}"
                                 Style="{StaticResource ActionButton}"
                                 Background="#6AAE6A"
-                                Margin="0,0,10,0"
-                                Click="CrearViaje_Click"/>
+                                Margin="0,0,10,0"/>
 
                         <Button Content="Editar" 
+                                Command="{Binding EditarCommand}"
                                 Style="{StaticResource ActionButton}"
                                 Background="#FF5B9BD4"
-                                Margin="0,0,10,0"
-                                Click="EditarViaje_Click"/>
+                                Margin="0,0,10,0"/>
 
                         <Button Content="Eliminar" 
+                                Command="{Binding EliminarCommand}"
                                 Style="{StaticResource ActionButton}"
-                                Background="#E56A5C"
-                                Click="EliminarViaje_Click"/>
+                                Background="#E56A5C"/>
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -225,6 +244,8 @@
 
                     <!-- DataGrid -->
                     <DataGrid x:Name="dgViajes"
+                              ItemsSource="{Binding Actividades}"
+                              SelectedItem="{Binding ActividadSeleccionada}"
                               AutoGenerateColumns="False"
                               Height="337"
                               IsReadOnly="True"
@@ -249,7 +270,7 @@
                                    Margin="2,6,0,0"/>
 
                         <TextBlock x:Name="txtTotalActividades"
-                                   Text="0" 
+                                   Text="{Binding TotalActividades}" 
                                    Style="{StaticResource TotalLabel}"
                                    Margin="6,6,0,0"/>
                     </StackPanel>

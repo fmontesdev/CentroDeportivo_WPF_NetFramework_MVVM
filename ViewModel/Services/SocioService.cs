@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Model;
 using Model.Repositorios;
@@ -79,22 +80,15 @@ namespace ViewModel.Services
                 throw new ArgumentException("El formato del email no es válido", nameof(socio.Email));
         }
 
-        // Valida el formato de un email usando expresión regular simple
+        // Valida el formato de un email usando expresión regular
         private bool EsEmailValido(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
                 return false;
 
-            try
-            {
-                // Validación simple de email
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
+            // Patrón de email simple: usuario@dominio.extension
+            string patron = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            return Regex.IsMatch(email, patron);
         }
     }
 }

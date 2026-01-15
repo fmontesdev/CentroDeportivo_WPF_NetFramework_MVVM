@@ -13,88 +13,48 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using CentroDeportivo.Views;
+using ViewModel;
 
 namespace CentroDeportivo
 {
-    /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
-    /// </summary>
+    // Code-behind para MainWindow.xaml
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            
-            // Cargar vista de Socios por defecto (Reservas aún no implementada)
-            MostrarVistaSocios();
+
+            // Crear ViewModel
+            var viewModel = new MainViewModel();
+
+            // Asignar Actions (más simple que eventos)
+            viewModel.CambiarVista = CambiarVista;
+            viewModel.SolicitarCerrar = () => Application.Current.Shutdown();
+
+            // Asignar DataContext
+            this.DataContext = viewModel;
+
+            // Inicializar vista por defecto
+            viewModel.InicializarVistaInicial();
         }
 
-        /// <summary>
-        /// Muestra la vista de Reservas
-        /// </summary>
-        private void BtnReservas_Click(object sender, RoutedEventArgs e)
+        // Maneja el cambio de vista (responsabilidad de la Vista)
+        private void CambiarVista(string nombreVista)
         {
-            MostrarVistaReservas();
-        }
-
-        /// <summary>
-        /// Muestra la vista de Socios
-        /// </summary>
-        private void BtnClientes_Click(object sender, RoutedEventArgs e)
-        {
-            MostrarVistaSocios();
-        }
-
-        /// <summary>
-        /// Muestra la vista de Actividades
-        /// </summary>
-        private void BtnViajes_Click(object sender, RoutedEventArgs e)
-        {
-            MostrarVistaActividades();
-        }
-
-        /// <summary>
-        /// Cierra la aplicación
-        /// </summary>
-        private void BtnSalir_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        // Métodos auxiliares para cambiar vistas
-        private void MostrarVistaReservas()
-        {
-            // TODO: Implementar ReservasView
-            // MainContent.Content = new ReservasView();
-            MainContent.Content = new TextBlock
+            switch (nombreVista)
             {
-                Text = "Vista de Reservas - Pendiente de implementar",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 18
-            };
-            txtTitulo.Text = "Gestión de Reservas";
-        }
+                case "Reservas":
+                    MainContent.Content = new ReservasView();
+                    break;
 
-        private void MostrarVistaSocios()
-        {
-            MainContent.Content = new SociosView();
-            txtTitulo.Text = "Gestión de Socios";
-        }
+                case "Socios":
+                    MainContent.Content = new SociosView();
+                    break;
 
-        private void MostrarVistaActividades()
-        {
-            // TODO: Implementar ActividadesView
-            // MainContent.Content = new ActividadesView();
-            MainContent.Content = new TextBlock
-            {
-                Text = "Vista de Actividades - Pendiente de implementar",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 18
-            };
-            txtTitulo.Text = "Gestión de Actividades";
+                case "Actividades":
+                    MainContent.Content = new ActividadesView();
+                    break;
+            }
         }
     }
 }
-

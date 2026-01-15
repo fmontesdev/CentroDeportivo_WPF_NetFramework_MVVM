@@ -76,7 +76,7 @@ namespace ViewModel
         // Total de socios (para mostrar en la UI)
         public int TotalSocios => Socios?.Count ?? 0;
 
-        // Mensaje de error general
+        // Mensaje de error
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -108,94 +108,11 @@ namespace ViewModel
 
             // Inicializar Commands
             NuevoCommand = new RelayCommand(NuevoSocio);
-            EditarCommand = new RelayCommand(EditarSocio, PuedeEditar);
-            EliminarCommand = new RelayCommand(EliminarSocio, PuedeEliminar);
+            EditarCommand = new RelayCommand(EditarSocio);
+            EliminarCommand = new RelayCommand(EliminarSocio);
 
             // Cargar socios al inicializar
             CargarSocios();
-        }
-
-        // Abre la ventana modal para crear un nuevo socio
-        private void NuevoSocio()
-        {
-            ErrorMessage = string.Empty;
-            LimpiarFormulario();
-            
-            // Disparar evento para que la Vista abra la ventana modal
-            VentanaNuevoSocio?.Invoke(this, EventArgs.Empty);
-        }
-
-        // Edita el socio seleccionado con los datos de los TextBox
-        private async void EditarSocio()
-        {
-            if (SocioSeleccionado == null) return;
-
-            try
-            {
-                ErrorMessage = string.Empty;
-
-                // Validar formulario
-                if (!ValidarFormulario())
-                {
-                    return;
-                }
-
-                // Actualizar propiedades del socio seleccionado
-                SocioSeleccionado.Nombre = Nombre.Trim();
-                SocioSeleccionado.Email = Email.Trim();
-
-                // Guardar en base de datos
-                await _socioService.ActualizarSocioAsync(SocioSeleccionado);
-
-                // Refrescar el DataGrid
-                OnPropertyChanged(nameof(Socios));
-                
-                ErrorMessage = string.Empty;
-            }
-            catch (ArgumentException ex)
-            {
-                ErrorMessage = $"⚠️ {ex.Message}";
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"❌ Error al editar socio: {ex.Message}";
-            }
-        }
-
-        // Elimina el socio seleccionado después de confirmación
-        private void EliminarSocio()
-        {
-            if (SocioSeleccionado == null) return;
-
-            try
-            {
-                ErrorMessage = string.Empty;
-
-                // Disparar evento para que la Vista muestre confirmación
-                ConfirmarEliminar?.Invoke(this, (SocioSeleccionado.IdSocio, SocioSeleccionado.Nombre));
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = $"❌ Error: {ex.Message}";
-            }
-        }
-
-        /// <summary>
-        /// Determina si se puede editar (debe haber un socio seleccionado y datos válidos)
-        /// </summary>
-        private bool PuedeEditar()
-        {
-            return SocioSeleccionado != null && 
-                   !string.IsNullOrWhiteSpace(Nombre) && 
-                   !string.IsNullOrWhiteSpace(Email);
-        }
-
-        /// <summary>
-        /// Determina si se puede eliminar (debe haber un socio seleccionado)
-        /// </summary>
-        private bool PuedeEliminar()
-        {
-            return SocioSeleccionado != null;
         }
 
         // Carga la lista de socios desde la base de datos
@@ -217,60 +134,62 @@ namespace ViewModel
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"❌ Error al cargar socios: {ex.Message}";
+                ErrorMessage = $"Error al cargar socios: {ex.Message}";
             }
         }
 
-        // Valida los datos del formulario
-        private bool ValidarFormulario()
+        // Abre la ventana modal para crear un nuevo socio
+        private void NuevoSocio()
         {
-            // Patrón de email
-            string patron = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-
-            // Validación del Nombre
-            if (string.IsNullOrWhiteSpace(Nombre))
-            {
-                ErrorMessage = "⚠️ El nombre del socio es obligatorio";
-                return false;
-            }
-
-            if (int.TryParse(Nombre, out _))
-            {
-                ErrorMessage = "⚠️ El nombre del socio no puede ser solo números";
-                return false;
-            }
-
-            if (Nombre.Trim().Length < 2)
-            {
-                ErrorMessage = "⚠️ El nombre debe tener al menos 2 caracteres";
-                return false;
-            }
-
-            // Validación del Email
-            if (string.IsNullOrWhiteSpace(Email))
-            {
-                ErrorMessage = "⚠️ El email del socio es obligatorio";
-                return false;
-            }
-
-            if (!Regex.IsMatch(Email, patron))
-            {
-                ErrorMessage = "⚠️ El email debe tener un formato válido (ejemplo@email.com)";
-                return false;
-            }
-
-            return true;
+            VentanaNuevoSocio?.Invoke();
         }
 
-        // Limpia los campos del formulario
-        private void LimpiarFormulario()
+        // Edita el socio seleccionado con los datos de los TextBox
+        private async void EditarSocio()
         {
-            Nombre = string.Empty;
-            Email = string.Empty;
+            // Verifica que haya una fila seleccionada
+            if (SocioSeleccionado == null)
+            {                 
+                ErrorMessage = "No hay ningún socio seleccionado para editar";
+            }
+            else if (ValidarFormulario())
+            {
+                try
+                {
+                    ErrorMessage = string.Empty;
+
+                    // Actualizar propiedades del socio seleccionado
+                    SocioSeleccionado.Nombre = Nombre.Trim();
+                    SocioSeleccionado.Email = Email.Trim();
+
+                    // Guardar en base de datos
+                    await _socioService.ActualizarSocioAsync(SocioSeleccionado);
+                }
+                catch (ArgumentException ex)
+                {
+                    ErrorMessage = $"{ex.Message}";
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage = $"Error al editar socio: {ex.Message}";
+                }
+            }
+        }
+
+        // Elimina el socio seleccionado después de confirmación
+        private void EliminarSocio()
+        {
+            if (SocioSeleccionado == null)
+            {
+                ErrorMessage = "No hay ningún socio seleccionado para eliminar";
+                return;
+            }
+
+            ErrorMessage = string.Empty;
+            ConfirmarEliminar?.Invoke((SocioSeleccionado.IdSocio, SocioSeleccionado.Nombre));
         }
 
         // Confirma y ejecuta la eliminación del socio
-        // La Vista debe llamar a este método después de que el usuario confirme
         public async void ConfirmarEliminarSocio(int idSocio)
         {
             try
@@ -291,18 +210,64 @@ namespace ViewModel
                 LimpiarFormulario();
 
                 OnPropertyChanged(nameof(TotalSocios));
-
-                ErrorMessage = string.Empty;
             }
             catch (InvalidOperationException ex)
             {
                 // Error de negocio (ej: socio tiene reservas)
-                ErrorMessage = $"⚠️ {ex.Message}";
+                ErrorMessage = $"{ex.Message}";
             }
             catch (Exception ex)
             {
-                ErrorMessage = $"❌ Error al eliminar socio: {ex.Message}";
+                ErrorMessage = $"Error al eliminar socio: {ex.Message}";
             }
+        }
+
+        // Valida los datos del formulario
+        private bool ValidarFormulario()
+        {
+            // Patrón de email
+            string patron = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+
+            // Validación del Nombre
+            if (string.IsNullOrWhiteSpace(Nombre))
+            {
+                ErrorMessage = "El nombre del socio es obligatorio";
+                return false;
+            }
+
+            if (int.TryParse(Nombre, out _))
+            {
+                ErrorMessage = "El nombre del socio no puede ser solo números";
+                return false;
+            }
+
+            if (Nombre.Trim().Length < 2)
+            {
+                ErrorMessage = "El nombre debe tener al menos 2 caracteres";
+                return false;
+            }
+
+            // Validación del Email
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                ErrorMessage = "El email del socio es obligatorio";
+                return false;
+            }
+
+            if (!Regex.IsMatch(Email, patron))
+            {
+                ErrorMessage = "El email debe tener un formato válido (ejemplo@email.com)";
+                return false;
+            }
+
+            return true;
+        }
+
+        // Limpia los campos del formulario
+        private void LimpiarFormulario()
+        {
+            Nombre = string.Empty;
+            Email = string.Empty;
         }
 
         // Recarga la lista después de crear un socio desde la ventana modal
@@ -313,18 +278,16 @@ namespace ViewModel
             SocioSeleccionado = null;
         }
 
+        // Actions para comunicar con la Vista (más simple que eventos)
+        public Action VentanaNuevoSocio { get; set; }
+        public Action<(int IdSocio, string Nombre)> ConfirmarEliminar { get; set; }
+
         // INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        // Evento para solicitar abrir la ventana de nuevo socio
-        public event EventHandler VentanaNuevoSocio;
-
-        // Evento para solicitar confirmación antes de eliminar
-        public event EventHandler<(int IdSocio, string Nombre)> ConfirmarEliminar;
     }
 }
 

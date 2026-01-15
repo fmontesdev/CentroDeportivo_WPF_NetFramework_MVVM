@@ -1,9 +1,8 @@
-锘縰sing System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -13,18 +12,18 @@ using ViewModel.Services;
 
 namespace ViewModel
 {
-    // ViewModel para la ventana de creaci贸n de socios (ventana modal)
+    // ViewModel para la ventana de creaci髇 de actividades (ventana modal)
     // Implementa INotifyPropertyChanged para notificar cambios a la UI
-    // Usa validaci贸n con mensajes de error
-    public class NuevoSocioViewModel : INotifyPropertyChanged
+    // Usa validaci髇 con mensajes de error
+    public class NuevaActividadViewModel : INotifyPropertyChanged
     {
         // Propiedades privadas
-        private readonly SocioService _socioService;
+        private readonly ActividadService _actividadService;
         private string _nombre;
-        private string _email;
+        private string _aforoMaximo;
         private string _errorMessage;
 
-        // Nombre del socio (enlazado al TextBox)
+        // Nombre de la actividad (enlazado al TextBox)
         public string Nombre
         {
             get => _nombre;
@@ -35,14 +34,14 @@ namespace ViewModel
             }
         }
 
-        // Email del socio (enlazado al TextBox)
-        public string Email
+        // Aforo m醲imo de la actividad (enlazado al TextBox)
+        public string AforoMaximo
         {
-            get => _email;
+            get => _aforoMaximo;
             set
             {
-                _email = value;
-                OnPropertyChanged(nameof(Email));
+                _aforoMaximo = value;
+                OnPropertyChanged(nameof(AforoMaximo));
             }
         }
 
@@ -61,26 +60,26 @@ namespace ViewModel
         // Indica si hay un error para mostrar en la UI
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
-        // Command para crear el socio
+        // Command para crear la actividad
         public ICommand CrearCommand { get; }
 
         // Command para cerrar la ventana sin guardar
         public ICommand CancelarCommand { get; }
 
         // Constructor
-        public NuevoSocioViewModel()
+        public NuevaActividadViewModel()
         {
-            _socioService = new SocioService();
+            _actividadService = new ActividadService();
 
             // Inicializar Commands
-            CrearCommand = new RelayCommand(CrearSocio);
+            CrearCommand = new RelayCommand(CrearActividad);
             CancelarCommand = new RelayCommand(Cancelar);
         }
 
-        // Crea el socio en la base de datos
-        private async void CrearSocio()
+        // Crea la actividad en la base de datos
+        private async void CrearActividad()
         {
-            // Valida el formulario y crea el socio
+            // Valida el formulario y crea la actividad
             if (ValidarFormulario())
             {
                 try
@@ -88,81 +87,83 @@ namespace ViewModel
                     // Limpiar mensaje de error previo
                     ErrorMessage = string.Empty;
 
-                    // Crear nuevo socio
-                    var nuevoSocio = new Socio
+                    // Crear nueva actividad
+                    var nuevaActividad = new Actividad
                     {
                         Nombre = Nombre.Trim(),
-                        Email = Email.Trim(),
-                        Activo = true
+                        AforoMaximo = int.Parse(AforoMaximo.Trim())
                     };
 
-                    await _socioService.CrearSocioAsync(nuevoSocio);
+                    await _actividadService.CrearActividadAsync(nuevaActividad);
 
-                    // Notificar 茅xito y cerrar ventana
+                    // Notificar 閤ito y cerrar ventana
                     CerrarVentanaExito?.Invoke();
                 }
                 catch (ArgumentException ex)
                 {
-                    // Errores de validaci贸n del servicio
+                    // Errores de validaci髇 del servicio
                     ErrorMessage = $"{ex.Message}";
                 }
                 catch (Exception ex)
                 {
                     // Otros errores
-                    ErrorMessage = $"Error al guardar el socio: {ex.Message}";
+                    ErrorMessage = $"Error al guardar la actividad: {ex.Message}";
                 }
             }
         }
 
         // Valida los campos del formulario
-        // Devuelve true si todo es v谩lido, false si hay errores
+        // Devuelve true si todo es v醠ido, false si hay errores
         private bool ValidarFormulario()
         {
-            // Patr贸n de email
-            string patron = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-
-            // Validaci贸n del Nombre
+            // Validaci髇 del Nombre
             if (string.IsNullOrWhiteSpace(Nombre))
             {
-                ErrorMessage = "El nombre del socio es obligatorio";
+                ErrorMessage = "El nombre de la actividad es obligatorio";
                 return false;
             }
 
-            if (int.TryParse(Nombre, out _))
+            if (Nombre.Trim().Length < 3)
             {
-                ErrorMessage = "El nombre del socio no puede ser solo n煤meros";
+                ErrorMessage = "El nombre debe tener al menos 3 caracteres";
                 return false;
             }
 
-            if (Nombre.Trim().Length < 2)
+            // Validaci髇 del Aforo M醲imo
+            if (string.IsNullOrWhiteSpace(AforoMaximo))
             {
-                ErrorMessage = "El nombre debe tener al menos 2 caracteres";
+                ErrorMessage = "El aforo m醲imo es obligatorio";
                 return false;
             }
 
-            // Validaci贸n del Email
-            if (string.IsNullOrWhiteSpace(Email))
+            if (!int.TryParse(AforoMaximo, out int aforo))
             {
-                ErrorMessage = "El email del socio es obligatorio";
+                ErrorMessage = "El aforo m醲imo debe ser un n鷐ero entero";
                 return false;
             }
 
-            if (!Regex.IsMatch(Email, patron))
+            if (aforo <= 0)
             {
-                ErrorMessage = "El email debe tener un formato v谩lido (ejemplo@email.com)";
+                ErrorMessage = "El aforo m醲imo debe ser mayor a 0";
+                return false;
+            }
+
+            if (aforo > 1000)
+            {
+                ErrorMessage = "El aforo m醲imo no puede superar las 1000 personas";
                 return false;
             }
 
             return true;
         }
 
-        // Cancela la operaci贸n y cierra la ventana
+        // Cancela la operaci髇 y cierra la ventana
         private void Cancelar()
         {
             CerrarVentanaCancelar?.Invoke();
         }
 
-        // Actions para cerrar la ventana (m谩s simple que eventos)
+        // Actions para cerrar la ventana (m醩 simple que eventos)
         // La vista asigna estas acciones al crear el ViewModel
         public Action CerrarVentanaExito { get; set; }
         public Action CerrarVentanaCancelar { get; set; }

@@ -55,8 +55,13 @@
   <ItemGroup>
     <Compile Include="ActividadViewModel.cs" />
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="NuevaActividadViewModel.cs" />
+    <Compile Include="NuevaReservaViewModel.cs" />
     <Compile Include="NuevoSocioViewModel.cs" />
     <Compile Include="ReservaViewModel.cs" />
+    <Compile Include="Services\ActividadService.cs" />
+    <Compile Include="Services\ReservaService.cs" />
     <Compile Include="Services\SocioService.cs" />
     <Compile Include="SocioViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

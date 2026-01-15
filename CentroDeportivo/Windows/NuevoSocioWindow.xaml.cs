@@ -33,6 +33,29 @@ namespace CentroDeportivo.Windows
             // Asignar DataContext
             this.DataContext = viewModel;
         }
+
+        // Maneja la visibilidad de los placeholders
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (textBox != null)
+            {
+                // Determinar cuál placeholder corresponde
+                if (textBox.Name == "txtNombre")
+                {
+                    placeholderNombre.Visibility = string.IsNullOrEmpty(textBox.Text)
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
+                }
+                else if (textBox.Name == "txtEmail")
+                {
+                    placeholderEmail.Visibility = string.IsNullOrEmpty(textBox.Text)
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
+                }
+            }
+        }
     }
 }
 

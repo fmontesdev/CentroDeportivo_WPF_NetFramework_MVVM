@@ -20,27 +20,23 @@ namespace CentroDeportivo.Views
     // Code-behind para SociosView.xaml
     public partial class SociosView : UserControl
     {
-        // Propiedades privadas
-        private readonly SocioViewModel _viewModel;
-
-        // Constructor
         public SociosView()
         {
             InitializeComponent();
 
-            // Crear e instanciar el ViewModel
-            _viewModel = new SocioViewModel();
+            // Crear e instanciar el ViewModel (variable local)
+            var viewModel = new SocioViewModel();
 
-            // Suscribirse a eventos del ViewModel
-            _viewModel.VentanaNuevoSocio += VentanaNuevoSocio;
-            _viewModel.ConfirmarEliminar += ConfirmarEliminar;
+            // Asignar Actions (más simple que eventos)
+            viewModel.VentanaNuevoSocio = VentanaNuevoSocio;
+            viewModel.ConfirmarEliminar = ConfirmarEliminar;
 
             // Asignar DataContext
-            this.DataContext = _viewModel;
+            this.DataContext = viewModel;
         }
 
         // Abre la ventana modal para crear un nuevo socio
-        private void VentanaNuevoSocio(object sender, EventArgs e)
+        private void VentanaNuevoSocio()
         {
             var ventana = new NuevoSocioWindow();
             
@@ -48,12 +44,12 @@ namespace CentroDeportivo.Views
             if (ventana.ShowDialog() == true)
             {
                 // Recargar la lista de socios
-                _viewModel.ActualizarListaDespuesDeCrear();
+                ((SocioViewModel)this.DataContext).ActualizarListaDespuesDeCrear();
             }
         }
 
         // Muestra un MessageBox de confirmación antes de eliminar
-        private void ConfirmarEliminar(object sender, (int IdSocio, string Nombre) info)
+        private void ConfirmarEliminar((int IdSocio, string Nombre) info)
         {
             var resultado = MessageBox.Show(
                 $"¿Está seguro que desea eliminar al socio '{info.Nombre}'?",
@@ -65,18 +61,8 @@ namespace CentroDeportivo.Views
             if (resultado == MessageBoxResult.Yes)
             {
                 // Confirmar eliminación en el ViewModel pasando solo el ID
-                _viewModel.ConfirmarEliminarSocio(info.IdSocio);
+                ((SocioViewModel)this.DataContext).ConfirmarEliminarSocio(info.IdSocio);
             }
-        }
-
-        // Limpia eventos al descargar el control para evitar memory leaks
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _viewModel.VentanaNuevoSocio -= VentanaNuevoSocio;
-            _viewModel.ConfirmarEliminar -= ConfirmarEliminar;
         }
     }
 }
-
-
-
