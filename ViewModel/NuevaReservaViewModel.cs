@@ -21,6 +21,8 @@ namespace ViewModel
     {
         // Propiedades privadas
         private readonly ReservaService _reservaService;
+        private readonly SocioService _socioService;
+        private readonly ActividadService _actividadService;
         private Socio _socioSeleccionado;
         private Actividad _actividadSeleccionada;
         private DateTime? _fechaReserva;
@@ -96,6 +98,8 @@ namespace ViewModel
         public NuevaReservaViewModel()
         {
             _reservaService = new ReservaService();
+            _socioService = new SocioService();
+            _actividadService = new ActividadService();
             
             Socios = new ObservableCollection<Socio>();
             Actividades = new ObservableCollection<Actividad>();
@@ -117,7 +121,7 @@ namespace ViewModel
             try
             {
                 // Cargar socios activos
-                var socios = await _reservaService.ObtenerSociosAsync();
+                var socios = await _socioService.ObtenerSociosActivosAsync();
                 _todosLosSocios = socios; // Guardar lista completa
                 
                 Socios.Clear();
@@ -127,7 +131,7 @@ namespace ViewModel
                 }
 
                 // Cargar actividades
-                var actividades = await _reservaService.ObtenerActividadesAsync();
+                var actividades = await _actividadService.ObtenerActividadesAsync();
                 _todasLasActividades = actividades; // Guardar lista completa
                 
                 Actividades.Clear();

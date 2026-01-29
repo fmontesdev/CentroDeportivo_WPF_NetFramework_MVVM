@@ -34,6 +34,22 @@ namespace CentroDeportivo.Windows
 
             // Asignar DataContext
             this.DataContext = _viewModel;
+
+            // Suscribir eventos TextChanged de los ComboBox al cargar la ventana
+            this.Loaded += (s, e) =>
+            {
+                // Suscribir el evento TextChanged del ComboBox de Socio cuando el template esté listo
+                if (cbSocio.Template.FindName("PART_EditableTextBox", cbSocio) is TextBox textBoxSocio)
+                {
+                    textBoxSocio.TextChanged += ComboBox_TextChanged;
+                }
+
+                // Suscribir el evento TextChanged del ComboBox de Actividad cuando el template esté listo
+                if (cbActividad.Template.FindName("PART_EditableTextBox", cbActividad) is TextBox textBoxActividad)
+                {
+                    textBoxActividad.TextChanged += ComboBox_TextChanged;
+                }
+            };
         }
 
         // Maneja la visibilidad de los placeholders de los ComboBox
@@ -47,17 +63,42 @@ namespace CentroDeportivo.Windows
                 // Identificamos el ComboBox por el placeholder que le corresponde
                 if (cbSocio.Template.FindName("PART_EditableTextBox", cbSocio) == textBox)
                 {
-                    placeholderSocio.Visibility = string.IsNullOrEmpty(textBox.Text)
-                        ? Visibility.Visible
-                        : Visibility.Collapsed;
+                    ActualizarVisibilidadPlaceholder(cbSocio, placeholderSocio);
                 }
                 else if (cbActividad.Template.FindName("PART_EditableTextBox", cbActividad) == textBox)
                 {
-                    placeholderActividad.Visibility = string.IsNullOrEmpty(textBox.Text)
-                        ? Visibility.Visible
-                        : Visibility.Collapsed;
+                    ActualizarVisibilidadPlaceholder(cbActividad, placeholderActividad);
                 }
             }
+        }
+
+        // Maneja el cambio de selección en el ComboBox de Socio
+        private void CbSocio_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ActualizarVisibilidadPlaceholder(cbSocio, placeholderSocio);
+        }
+
+        // Maneja el cambio de selección en el ComboBox de Actividad
+        private void CbActividad_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ActualizarVisibilidadPlaceholder(cbActividad, placeholderActividad);
+        }
+
+        // Actualiza la visibilidad del placeholder de un ComboBox (método genérico)
+        private void ActualizarVisibilidadPlaceholder(ComboBox comboBox, TextBlock placeholder)
+        {
+            // Ocultar el placeholder si hay un elemento seleccionado o si hay texto en el ComboBox
+            bool tieneSeleccion = comboBox.SelectedItem != null;
+            bool tieneTexto = false;
+
+            if (comboBox.Template.FindName("PART_EditableTextBox", comboBox) is TextBox textBox)
+            {
+                tieneTexto = !string.IsNullOrEmpty(textBox.Text);
+            }
+
+            placeholder.Visibility = (tieneSeleccion || tieneTexto)
+                ? Visibility.Collapsed
+                : Visibility.Visible;
         }
 
         // ==================== EVENTOS DE SOCIO ====================
@@ -91,10 +132,6 @@ namespace CentroDeportivo.Windows
             if (cbSocio.Template.FindName("PART_EditableTextBox", cbSocio) is TextBox textBox)
             {
                 textBox.SelectionStart = criterioSocio.Length;
-                
-                // Suscribir al TextChanged si no está ya suscrito
-                textBox.TextChanged -= ComboBox_TextChanged;
-                textBox.TextChanged += ComboBox_TextChanged;
             }
 
             // Si no hay resultados, limpia la selección
@@ -135,10 +172,6 @@ namespace CentroDeportivo.Windows
             if (cbActividad.Template.FindName("PART_EditableTextBox", cbActividad) is TextBox textBox)
             {
                 textBox.SelectionStart = criterioActividad.Length;
-                
-                // Suscribir al TextChanged si no está ya suscrito
-                textBox.TextChanged -= ComboBox_TextChanged;
-                textBox.TextChanged += ComboBox_TextChanged;
             }
 
             // Si no hay resultados, limpia la selección

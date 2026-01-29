@@ -8,7 +8,7 @@
       mc:Ignorable="d"
       Title="Nueva Reserva"
       Width="420"
-      Height="328"
+      Height="385"
       Background="#FFF0F0F0"
       WindowStartupLocation="CenterScreen"
       ResizeMode="NoResize">
@@ -162,7 +162,8 @@
                                       DisplayMemberPath="Nombre"
                                       SelectedValuePath="IdSocio"
                                       PreviewMouseDown="CbSocio_PreviewMouseDown"
-                                      KeyUp="CbSocio_KeyUp"/>
+                                      KeyUp="CbSocio_KeyUp"
+                                      SelectionChanged="CbSocio_SelectionChanged"/>
                             <TextBlock x:Name="placeholderSocio"
                                        Text="Selecciona un socio"
                                        Style="{StaticResource PlaceholderText}"/>
@@ -175,7 +176,7 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="✈️"
+                        <TextBlock Text="🏃"
                                    Grid.Column="0"
                                    Style="{StaticResource FieldIcon}"
                                    FontSize="16"
@@ -190,7 +191,8 @@
                                       DisplayMemberPath="Nombre"
                                       SelectedValuePath="IdActividad"
                                       PreviewMouseDown="CbActividad_PreviewMouseDown"
-                                      KeyUp="CbActividad_KeyUp"/>
+                                      KeyUp="CbActividad_KeyUp"
+                                      SelectionChanged="CbActividad_SelectionChanged"/>
                             <TextBlock x:Name="placeholderActividad"
                                        Text="Selecciona una actividad"
                                        Style="{StaticResource PlaceholderText}"/>

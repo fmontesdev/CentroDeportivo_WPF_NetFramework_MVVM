@@ -56,6 +56,21 @@
     <Compile Include="Actividad.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataSets\dsSocios.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsSocios.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\dsReservasHistorial.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsReservasHistorial.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\dsReservasPorActividad.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsReservasPorActividad.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -90,6 +105,39 @@
     </EntityDeploy>
     <None Include="CentroDeportivo.edmx.diagram">
       <DependentUpon>CentroDeportivo.edmx</DependentUpon>
+    </None>
+    <None Include="DataSets\dsSocios.xsc">
+      <DependentUpon>dsSocios.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\dsSocios.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsSocios.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSets\dsSocios.xss">
+      <DependentUpon>dsSocios.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\dsReservasHistorial.xsc">
+      <DependentUpon>dsReservasHistorial.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\dsReservasHistorial.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsReservasHistorial.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSets\dsReservasHistorial.xss">
+      <DependentUpon>dsReservasHistorial.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\dsReservasPorActividad.xsc">
+      <DependentUpon>dsReservasPorActividad.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\dsReservasPorActividad.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsReservasPorActividad.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSets\dsReservasPorActividad.xss">
+      <DependentUpon>dsReservasPorActividad.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>

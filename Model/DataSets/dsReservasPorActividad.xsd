@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsReservasPorActividad" targetNamespace="http://tempuri.org/dsReservasPorActividad.xsd" xmlns:mstns="http://tempuri.org/dsReservasPorActividad.xsd" xmlns="http://tempuri.org/dsReservasPorActividad.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsReservasPorActividad" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_UserDSName="dsReservasPorActividad" msprop:Generator_DataSetName="dsReservasPorActividad">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dsReservasPorActividad" msprop:Generator_RowEvHandlerName="dsReservasPorActividadRowChangeEventHandler" msprop:Generator_RowDeletedName="dsReservasPorActividadRowDeleted" msprop:Generator_RowDeletingName="dsReservasPorActividadRowDeleting" msprop:Generator_RowEvArgName="dsReservasPorActividadRowChangeEvent" msprop:Generator_TablePropName="_dsReservasPorActividad" msprop:Generator_RowChangedName="dsReservasPorActividadRowChanged" msprop:Generator_RowChangingName="dsReservasPorActividadRowChanging" msprop:Generator_TableClassName="dsReservasPorActividadDataTable" msprop:Generator_RowClassName="dsReservasPorActividadRow" msprop:Generator_TableVarName="tabledsReservasPorActividad" msprop:Generator_UserTableName="dsReservasPorActividad">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NombreActividad" msprop:Generator_ColumnPropNameInRow="NombreActividad" msprop:Generator_ColumnPropNameInTable="NombreActividadColumn" msprop:Generator_ColumnVarNameInTable="columnNombreActividad" msprop:Generator_UserColumnName="NombreActividad" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FechaReserva" msprop:Generator_ColumnPropNameInRow="FechaReserva" msprop:Generator_ColumnPropNameInTable="FechaReservaColumn" msprop:Generator_ColumnVarNameInTable="columnFechaReserva" msprop:Generator_UserColumnName="FechaReserva" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="NombreSocio" msprop:Generator_ColumnPropNameInRow="NombreSocio" msprop:Generator_ColumnPropNameInTable="NombreSocioColumn" msprop:Generator_ColumnVarNameInTable="columnNombreSocio" msprop:Generator_UserColumnName="NombreSocio" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="AforoMaximo" msprop:Generator_ColumnPropNameInRow="AforoMaximo" msprop:Generator_ColumnPropNameInTable="AforoMaximoColumn" msprop:Generator_ColumnVarNameInTable="columnAforoMaximo" msprop:Generator_UserColumnName="AforoMaximo" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

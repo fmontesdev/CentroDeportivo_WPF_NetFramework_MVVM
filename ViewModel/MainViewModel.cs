@@ -27,6 +27,7 @@ namespace ViewModel
         public ICommand MostrarReservasCommand { get; }
         public ICommand MostrarSociosCommand { get; }
         public ICommand MostrarActividadesCommand { get; }
+        public ICommand MostrarInformesCommand { get; }
         public ICommand SalirCommand { get; }
 
         // Constructor
@@ -36,6 +37,7 @@ namespace ViewModel
             MostrarReservasCommand = new RelayCommand(MostrarReservas);
             MostrarSociosCommand = new RelayCommand(MostrarSocios);
             MostrarActividadesCommand = new RelayCommand(MostrarActividades);
+            MostrarInformesCommand = new RelayCommand(MostrarInformes);
             SalirCommand = new RelayCommand(Salir);
         }
 
@@ -62,6 +64,12 @@ namespace ViewModel
         {
             CambiarVista?.Invoke("Actividades");
             Titulo = "Gestión de Actividades";
+        }
+
+        private void MostrarInformes()
+        {
+            CambiarVista?.Invoke("Informes");
+            Titulo = "Informes";
         }
 
         private void Salir()

@@ -8,7 +8,7 @@ xmlns:vm="clr-namespace:ViewModel;assembly=ViewModel"
 mc:Ignorable="d"
 Title="Nuevo Socio"
 Width="420"
-Height="340"
+Height="330"
 Background="#FFF0F0F0"
 WindowStartupLocation="CenterScreen"
 ResizeMode="NoResize">

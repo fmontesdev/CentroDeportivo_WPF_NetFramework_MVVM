@@ -65,6 +65,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\InformesView.xaml.cs">
+      <DependentUpon>InformesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReservasView.xaml.cs">
       <DependentUpon>ReservasView.xaml</DependentUpon>
     </Compile>
@@ -95,6 +98,9 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\InformesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ReservasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

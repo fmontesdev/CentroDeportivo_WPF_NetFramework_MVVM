@@ -22,6 +22,7 @@ namespace ViewModel
         private Socio _socioSeleccionado;
         private string _nombre;
         private string _email;
+        private bool _activo;
         private string _errorMessage;
 
         // Colección observable de socios para el DataGrid
@@ -43,6 +44,7 @@ namespace ViewModel
                 {
                     Nombre = _socioSeleccionado.Nombre;
                     Email = _socioSeleccionado.Email;
+                    Activo = _socioSeleccionado.Activo;
                 }
                 else
                 {
@@ -70,6 +72,17 @@ namespace ViewModel
             {
                 _email = value;
                 OnPropertyChanged(nameof(Email));
+            }
+        }
+
+        // Activo del socio (enlazado al CheckBox)
+        public bool Activo
+        {
+            get => _activo;
+            set
+            {
+                _activo = value;
+                OnPropertyChanged(nameof(Activo));
             }
         }
 
@@ -228,6 +241,7 @@ namespace ViewModel
                     // Actualizar propiedades del socio seleccionado
                     SocioSeleccionado.Nombre = Nombre.Trim();
                     SocioSeleccionado.Email = Email.Trim();
+                    SocioSeleccionado.Activo = Activo;
 
                     // Guardar en base de datos
                     await _socioService.ActualizarSocioAsync(SocioSeleccionado);
@@ -341,6 +355,7 @@ namespace ViewModel
         {
             Nombre = string.Empty;
             Email = string.Empty;
+            Activo = false;
         }
 
         // Actions para comunicar con la Vista (más simple que eventos)

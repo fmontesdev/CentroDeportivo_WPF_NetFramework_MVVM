@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.DataSets;
 
 namespace Model.Repositorios
 {
@@ -48,6 +49,70 @@ namespace Model.Repositorios
         public CentroDeportivoEntities ObtenerContexto()
         {
             return _context;
+        }
+
+        // Obtiene el DataSet de reservas por actividad para el informe
+        public async Task<dsReservasPorActividad> ObtenerDataSetReservasPorActividadAsync(int idActividad)
+        {
+            // Consulta con LINQ
+            var datos = await _context.Reserva
+                .Where(r => r.IdActividad == idActividad)
+                .Select(r => new
+                {
+                    NombreActividad = r.Actividad.Nombre,
+                    FechaReserva = r.Fecha,
+                    NombreSocio = r.Socio.Nombre,
+                    AforoMaximo = r.Actividad.AforoMaximo
+                })
+                .OrderBy(d => d.FechaReserva)
+                .ToListAsync();
+
+            // Crear instancia del DataSet
+            var dataSet = new dsReservasPorActividad();
+
+            // Mapear datos al DataSet
+            foreach (var dato in datos)
+            {
+                dataSet._dsReservasPorActividad.AdddsReservasPorActividadRow(
+                    dato.NombreActividad,
+                    dato.FechaReserva,
+                    dato.NombreSocio,
+                    dato.AforoMaximo
+                );
+            }
+
+            return dataSet;
+        }
+
+        // Obtiene el DataSet de historial de reservas para el informe
+        public async Task<dsReservasHistorial> ObtenerDataSetReservasHistorialAsync()
+        {
+            // Consulta con LINQ
+            var datos = await _context.Reserva
+                .Select(r => new
+                {
+                    NombreSocio = r.Socio.Nombre,
+                    NombreActividad = r.Actividad.Nombre,
+                    FechaReserva = r.Fecha
+                })
+                .OrderBy(d => d.NombreSocio)
+                .ThenBy(d => d.FechaReserva)
+                .ToListAsync();
+
+            // Crear instancia del DataSet
+            var dataSet = new dsReservasHistorial();
+
+            // Mapear datos al DataSet
+            foreach (var dato in datos)
+            {
+                dataSet._dsReservasHistorial.AdddsReservasHistorialRow(
+                    dato.NombreSocio,
+                    dato.NombreActividad,
+                    dato.FechaReserva
+                );
+            }
+
+            return dataSet;
         }
     }
 }

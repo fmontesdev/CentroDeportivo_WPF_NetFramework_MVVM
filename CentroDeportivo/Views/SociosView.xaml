@@ -164,21 +164,48 @@ d:DesignHeight="600" d:DesignWidth="660">
                     <TextBlock Text="Gestión de Socios" 
                                Style="{StaticResource SectionTitle}"/>
 
-                    <!-- Nombre -->
                     <Grid Margin="0,0,0,10">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="15"/>
+                            <ColumnDefinition Width="80"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="👤" 
-                                   Grid.Column="0"
-                                   Style="{StaticResource TextBoxIcon}"
-                                   FontSize="16"
-                                   Margin="0,0,8,0"/>
-                        <TextBox Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"
-                                 Grid.Column="1"
-                                 Style="{StaticResource InputTextBox}"
-                                 MaxLength="30"/>
+
+                        <!-- Nombre -->
+                        <Grid Grid.Column="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="👤" 
+                                       Grid.Column="0"
+                                       Style="{StaticResource TextBoxIcon}"
+                                       FontSize="16"
+                                       Margin="0,0,8,0"/>
+                            <TextBox Text="{Binding Nombre, UpdateSourceTrigger=PropertyChanged}"
+                                     Grid.Column="1"
+                                     Style="{StaticResource InputTextBox}"
+                                     MaxLength="30"/>
+                        </Grid>
+
+                        <!-- Activo -->
+                        <Grid Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="✓" 
+                                       Grid.Column="0"
+                                       Style="{StaticResource TextBoxIcon}"
+                                       FontSize="16"
+                                       Margin="0,0,8,0"/>
+                            <CheckBox IsChecked="{Binding Activo, UpdateSourceTrigger=PropertyChanged}"
+                                      Grid.Column="1"
+                                      Content="Activo"
+                                      VerticalAlignment="Center"
+                                      FontSize="13"
+                                      Foreground="#FF3D3D3D"/>
+                        </Grid>
                     </Grid>
 
                     <!-- Email -->
@@ -197,7 +224,7 @@ d:DesignHeight="600" d:DesignWidth="660">
                                  Style="{StaticResource InputTextBox}"
                                  MaxLength="100"/>
                     </Grid>
-                    
+
                     <!-- Mensaje de Error (si existe) -->
                     <Border Background="#FFFFE0E0" 
                             BorderBrush="#FFFF6B6B" 
@@ -258,7 +285,7 @@ d:DesignHeight="600" d:DesignWidth="660">
                               RowStyle="{StaticResource DataGridRowStyle}"
                               CellStyle="{StaticResource DataGridCellStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding IdSocio}" Width="40"/>
+                            <DataGridTextColumn Header="ID" Binding="{Binding IdSocio}" Width="55"/>
                             <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
                             <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
                             <DataGridTextColumn Header="Activo" Binding="{Binding Activo}" Width="60"/>

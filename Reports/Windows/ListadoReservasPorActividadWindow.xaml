@@ -1,0 +1,26 @@
+<Window x:Class="Reports.Windows.ListadoReservasPorActividadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wf="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration"
+        xmlns:cr="clr-namespace:CrystalDecisions.Windows.Forms;assembly=CrystalDecisions.Windows.Forms"
+        mc:Ignorable="d"
+        Title="Reservas por Actividad" 
+        Height="600" 
+        Width="900"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
+    
+    <Grid>
+        <wf:WindowsFormsHost>
+            <cr:CrystalReportViewer x:Name="crystalReportViewer" 
+                                     DisplayGroupTree="False"
+                                     ShowRefreshButton="False"
+                                     ShowCloseButton="False"
+                                     ShowGroupTreeButton="False"
+                                     ShowExportButton="True"
+                                     ShowPrintButton="True"/>
+        </wf:WindowsFormsHost>
+    </Grid>
+</Window>

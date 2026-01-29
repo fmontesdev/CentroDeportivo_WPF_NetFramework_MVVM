@@ -8,7 +8,7 @@
       mc:Ignorable="d"
       Title="Nueva Actividad"
       Width="420"
-      Height="340"
+      Height="330"
 Background="#FFF0F0F0"
       WindowStartupLocation="CenterScreen"
       ResizeMode="NoResize">
@@ -142,7 +142,7 @@ Background="#FFF0F0F0"
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="🌍"
+                        <TextBlock Text="🏃"
                                    Grid.Column="0"
                                    Style="{StaticResource TextBoxIcon}"
                                    FontSize="16"

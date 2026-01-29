@@ -26,6 +26,13 @@ namespace ViewModel.Services
             return await _repo.SeleccionarAsync();
         }
 
+        // Obtiene todos los socios activos de la base de datos
+        public async Task<List<Socio>> ObtenerSociosActivosAsync()
+        {
+            var socios = await _repo.SeleccionarAsync();
+            return socios.Where(s => s.Activo).ToList();
+        }
+
         // Crea un nuevo socio en la base de datos
         public async Task CrearSocioAsync(Socio socio)
         {

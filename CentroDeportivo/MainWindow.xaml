@@ -175,6 +175,11 @@
                                 Style="{StaticResource SidebarRadioButton}"
                                 Command="{Binding MostrarActividadesCommand}"/>
 
+                    <RadioButton Content="Informes"
+                                Tag="📊"
+                                Style="{StaticResource SidebarRadioButton}"
+                                Command="{Binding MostrarInformesCommand}"/>
+
                     <Separator Margin="0,15" 
                               Background="#2E5670" 
                               Height="1"/>

@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.DataSets;
 
 namespace Model.Repositorios
 {
@@ -48,6 +49,30 @@ namespace Model.Repositorios
         public CentroDeportivoEntities ObtenerContexto()
         {
             return _context;
+        }
+
+        // Obtiene el DataSet de socios para el informe
+        // Consulta optimizada para Crystal Reports
+        public async Task<dsSocios> ObtenerDataSetSociosAsync()
+        {
+            // Obtener todos los socios
+            var socios = await SeleccionarAsync();
+
+            // Crear instancia del DataSet
+            var dataSet = new dsSocios();
+
+            // Mapear entidades al DataSet
+            foreach (var socio in socios)
+            {
+                dataSet._dsSocios.AdddsSociosRow(
+                    socio.IdSocio,
+                    socio.Nombre,
+                    socio.Email,
+                    socio.Activo ? "Activo" : "Inactivo"  // Convierte booleano a texto
+                );
+            }
+
+            return dataSet;
         }
     }
 }

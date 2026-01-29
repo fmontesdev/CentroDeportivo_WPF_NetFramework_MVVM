@@ -216,7 +216,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="✈️"
+                            <TextBlock Text="🏃"
                                        Grid.Column="0"
                                        Style="{StaticResource FieldIcon}"
                                        FontSize="16"
@@ -331,7 +331,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="🌍"
+                            <TextBlock Text="🏃"
                                        Grid.Column="0"
                                        Style="{StaticResource FieldIcon}"
                                        FontSize="16"
@@ -383,7 +383,7 @@
                               RowStyle="{StaticResource DataGridRowStyle}"
                               CellStyle="{StaticResource DataGridCellStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding IdReserva}" Width="40"/>
+                            <DataGridTextColumn Header="ID" Binding="{Binding IdReserva}" Width="55"/>
                             <DataGridTextColumn Header="Socio" Binding="{Binding Socio.Nombre}" Width="*"/>
                             <DataGridTextColumn Header="Actividad" Binding="{Binding Actividad.Nombre}" Width="*"/>
                             <DataGridTextColumn Header="Fecha" Binding="{Binding Fecha, StringFormat='dd/MM/yyyy'}" Width="100"/>

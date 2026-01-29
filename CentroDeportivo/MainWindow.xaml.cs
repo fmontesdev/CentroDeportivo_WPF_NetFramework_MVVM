@@ -54,6 +54,10 @@ namespace CentroDeportivo
                 case "Actividades":
                     MainContent.Content = new ActividadesView();
                     break;
+
+                case "Informes":
+                    MainContent.Content = new InformesView();
+                    break;
             }
         }
     }

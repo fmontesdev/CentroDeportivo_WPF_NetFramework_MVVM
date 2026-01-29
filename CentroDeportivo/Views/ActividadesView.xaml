@@ -167,7 +167,7 @@
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="🌍" 
+                            <TextBlock Text="🏃" 
                                        Grid.Column="0"
                                        Style="{StaticResource TextBoxIcon}"
                                        FontSize="16"
@@ -257,7 +257,7 @@
                               RowStyle="{StaticResource DataGridRowStyle}"
                               CellStyle="{StaticResource DataGridCellStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding IdActividad}" Width="40"/>
+                            <DataGridTextColumn Header="ID" Binding="{Binding IdActividad}" Width="55"/>
                             <DataGridTextColumn Header="Nombre de Actividad" Binding="{Binding Nombre}" Width="*"/>
                             <DataGridTextColumn Header="Aforo max." Binding="{Binding AforoMaximo}" Width="90"/>
                         </DataGrid.Columns>

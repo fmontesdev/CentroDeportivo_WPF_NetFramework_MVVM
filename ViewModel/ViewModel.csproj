@@ -41,6 +41,7 @@
       <HintPath>..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -55,12 +56,17 @@
   <ItemGroup>
     <Compile Include="ActividadViewModel.cs" />
     <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="InformeViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
+    <Compile Include="Models\Informe.cs" />
+    <Compile Include="Models\ListaInformes.cs" />
+    <Compile Include="Models\TipoInforme.cs" />
     <Compile Include="NuevaActividadViewModel.cs" />
     <Compile Include="NuevaReservaViewModel.cs" />
     <Compile Include="NuevoSocioViewModel.cs" />
     <Compile Include="ReservaViewModel.cs" />
     <Compile Include="Services\ActividadService.cs" />
+    <Compile Include="Services\InformeService.cs" />
     <Compile Include="Services\ReservaService.cs" />
     <Compile Include="Services\SocioService.cs" />
     <Compile Include="SocioViewModel.cs" />
@@ -74,6 +80,10 @@
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{024df905-d2e3-4431-93a8-454cf4e0366f}</Project>
       <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reports\Reports.csproj">
+      <Project>{e644064a-fcf9-4c4c-86ca-e8749be33d33}</Project>
+      <Name>Reports</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
