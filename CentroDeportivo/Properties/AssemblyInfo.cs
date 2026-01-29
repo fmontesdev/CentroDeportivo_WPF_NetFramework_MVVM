@@ -7,11 +7,11 @@ using System.Windows;
 // La información general de un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos valores de atributo para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("CentroDeportivo")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Centro Deportivo")]
+[assembly: AssemblyDescription("Sistema de gestión de socios, actividades y reservas para centros deportivos")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("CentroDeportivo")]
+[assembly: AssemblyCompany("Centro Deportivo")]
+[assembly: AssemblyProduct("Centro Deportivo - Sistema de Gestión")]
 [assembly: AssemblyCopyright("Copyright ©  2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

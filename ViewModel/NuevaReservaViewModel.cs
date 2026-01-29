@@ -248,7 +248,7 @@ namespace ViewModel
 
         // Valida los campos del formulario
         // Devuelve true si todo es válido, false si hay errores
-        private bool ValidarFormulario()
+        public bool ValidarFormulario()
         {
             // Validación del Socio
             if (SocioSeleccionado == null)

@@ -116,7 +116,7 @@ namespace ViewModel
 
         // Valida los campos del formulario
         // Devuelve true si todo es válido, false si hay errores
-        private bool ValidarFormulario()
+        public bool ValidarFormulario()
         {
             // Patrón de email
             string patron = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
