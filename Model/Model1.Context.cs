@@ -13,20 +13,42 @@ namespace Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
+    /// <summary>
+    /// Contexto de Entity Framework para la base de datos del centro deportivo.
+    /// Gestiona las entidades Actividad, Reserva y Socio
+    /// </summary>
     public partial class CentroDeportivoEntities : DbContext
     {
+        /// <summary>
+        /// Constructor que inicializa el contexto con la cadena de conexión configurada
+        /// </summary>
         public CentroDeportivoEntities()
             : base("name=CentroDeportivoEntities")
         {
         }
     
+        /// <summary>
+        /// Configura el modelo de datos. Lanza excepción si se intenta usar Code First
+        /// </summary>
+        /// <param name="modelBuilder">Constructor del modelo</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
         }
     
+        /// <summary>
+        /// Conjunto de entidades Actividad en la base de datos
+        /// </summary>
         public virtual DbSet<Actividad> Actividad { get; set; }
+        
+        /// <summary>
+        /// Conjunto de entidades Reserva en la base de datos
+        /// </summary>
         public virtual DbSet<Reserva> Reserva { get; set; }
+        
+        /// <summary>
+        /// Conjunto de entidades Socio en la base de datos
+        /// </summary>
         public virtual DbSet<Socio> Socio { get; set; }
     }
 }

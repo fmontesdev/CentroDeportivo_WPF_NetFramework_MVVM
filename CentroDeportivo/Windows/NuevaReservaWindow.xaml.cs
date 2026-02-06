@@ -15,12 +15,17 @@ using ViewModel;
 
 namespace CentroDeportivo.Windows
 {
-    // Code-behind para NuevaReservaWindow.xaml
+    /// <summary>
+    /// Code-behind para NuevaReservaWindow.xaml.
+    /// Ventana modal para crear una nueva reserva con ComboBox filtrables de socios y actividades
+    /// </summary>
     public partial class NuevaReservaWindow : Window
     {
         private NuevaReservaViewModel _viewModel;
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa la ventana, configura el ViewModel y suscribe eventos de filtrado
+        /// </summary>
         public NuevaReservaWindow()
         {
             InitializeComponent();
@@ -52,7 +57,11 @@ namespace CentroDeportivo.Windows
             };
         }
 
-        // Maneja la visibilidad de los placeholders de los ComboBox
+        /// <summary>
+        /// Maneja el cambio de texto en los ComboBox editables y actualiza la visibilidad de placeholders
+        /// </summary>
+        /// <param name="sender">TextBox interno del ComboBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void ComboBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
@@ -72,19 +81,32 @@ namespace CentroDeportivo.Windows
             }
         }
 
-        // Maneja el cambio de selección en el ComboBox de Socio
+        /// <summary>
+        /// Maneja el cambio de selección en el ComboBox de Socio y actualiza el placeholder
+        /// </summary>
+        /// <param name="sender">ComboBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void CbSocio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ActualizarVisibilidadPlaceholder(cbSocio, placeholderSocio);
         }
 
-        // Maneja el cambio de selección en el ComboBox de Actividad
+        /// <summary>
+        /// Maneja el cambio de selección en el ComboBox de Actividad y actualiza el placeholder
+        /// </summary>
+        /// <param name="sender">ComboBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void CbActividad_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ActualizarVisibilidadPlaceholder(cbActividad, placeholderActividad);
         }
 
-        // Actualiza la visibilidad del placeholder de un ComboBox (método genérico)
+        /// <summary>
+        /// Actualiza la visibilidad del placeholder de un ComboBox según su estado.
+        /// Oculta el placeholder si hay un elemento seleccionado o texto escrito
+        /// </summary>
+        /// <param name="comboBox">ComboBox a evaluar</param>
+        /// <param name="placeholder">TextBlock del placeholder asociado</param>
         private void ActualizarVisibilidadPlaceholder(ComboBox comboBox, TextBlock placeholder)
         {
             // Ocultar el placeholder si hay un elemento seleccionado o si hay texto en el ComboBox
@@ -101,9 +123,11 @@ namespace CentroDeportivo.Windows
                 : Visibility.Visible;
         }
 
-        // ==================== EVENTOS DE SOCIO ====================
-
-        // Evento para la selección del socio al hacer clic en el ComboBox
+        /// <summary>
+        /// Selecciona todo el texto del ComboBox de Socio al hacer clic para facilitar la edición
+        /// </summary>
+        /// <param name="sender">ComboBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void CbSocio_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // Selecciona todo el texto del ComboBox editable
@@ -113,7 +137,12 @@ namespace CentroDeportivo.Windows
             }
         }
 
-        // Evento para filtrar los socios al escribir en el ComboBox
+        /// <summary>
+        /// Filtra los socios en tiempo real mientras el usuario escribe en el ComboBox.
+        /// Delega la lógica de filtrado al ViewModel
+        /// </summary>
+        /// <param name="sender">ComboBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void CbSocio_KeyUp(object sender, KeyEventArgs e)
         {
             // Obtiene el criterio de filtrado
@@ -141,9 +170,11 @@ namespace CentroDeportivo.Windows
             }
         }
 
-        // ==================== EVENTOS DE ACTIVIDAD ====================
-
-        // Evento para la selección de la actividad al hacer clic en el ComboBox
+        /// <summary>
+        /// Selecciona todo el texto del ComboBox de Actividad al hacer clic para facilitar la edición
+        /// </summary>
+        /// <param name="sender">ComboBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void CbActividad_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // Selecciona todo el texto del ComboBox editable
@@ -153,7 +184,12 @@ namespace CentroDeportivo.Windows
             }
         }
 
-        // Evento para filtrar las actividades al escribir en el ComboBox
+        /// <summary>
+        /// Filtra las actividades en tiempo real mientras el usuario escribe en el ComboBox.
+        /// Delega la lógica de filtrado al ViewModel
+        /// </summary>
+        /// <param name="sender">ComboBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void CbActividad_KeyUp(object sender, KeyEventArgs e)
         {
             // Obtiene el criterio de filtrado

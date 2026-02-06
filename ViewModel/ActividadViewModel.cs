@@ -12,23 +12,28 @@ using ViewModel.Services;
 
 namespace ViewModel
 {
-    // ViewModel para la vista principal de gestión de actividades (ActividadesView)
-    // Maneja la lista de actividades, selección y operaciones CRUD
+    /// <summary>
+    /// ViewModel para la vista principal de gestión de actividades (ActividadesView).
+    /// Maneja la lista de actividades, selección y operaciones CRUD
+    /// </summary>
     public class ActividadViewModel : INotifyPropertyChanged
     {
-        // Propiedades privadas
         private readonly ActividadService _actividadService;
         private Actividad _actividadSeleccionada;
         private string _nombre;
         private string _aforoMaximo;
         private string _errorMessage;
 
-        // Colección observable de actividades para el DataGrid
-        // Actualiza la UI automáticamente
+        /// <summary>
+        /// Colección observable de actividades para el DataGrid.
+        /// Se actualiza automáticamente en la interfaz de usuario
+        /// </summary>
         public ObservableCollection<Actividad> Actividades { get; set; }
 
-        // Actividad seleccionada en el DataGrid
-        // Al seleccionar una actividad, se cargan sus datos en los TextBox
+        /// <summary>
+        /// Actividad seleccionada en el DataGrid.
+        /// Al seleccionar una actividad, se cargan sus datos en los TextBox
+        /// </summary>
         public Actividad ActividadSeleccionada
         {
             get => _actividadSeleccionada;
@@ -50,7 +55,9 @@ namespace ViewModel
             }
         }
 
-        // Nombre de la actividad (enlazado al TextBox)
+        /// <summary>
+        /// Nombre de la actividad enlazado al TextBox de edición
+        /// </summary>
         public string Nombre
         {
             get => _nombre;
@@ -61,7 +68,9 @@ namespace ViewModel
             }
         }
 
-        // Aforo máximo de la actividad (enlazado al TextBox)
+        /// <summary>
+        /// Aforo máximo de la actividad enlazado al TextBox de edición
+        /// </summary>
         public string AforoMaximo
         {
             get => _aforoMaximo;
@@ -72,10 +81,14 @@ namespace ViewModel
             }
         }
 
-        // Total de actividades (para mostrar en la UI)
+        /// <summary>
+        /// Total de actividades registradas en la colección
+        /// </summary>
         public int TotalActividades => Actividades?.Count ?? 0;
 
-        // Mensaje de error
+        /// <summary>
+        /// Mensaje de error para mostrar al usuario
+        /// </summary>
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -87,19 +100,29 @@ namespace ViewModel
             }
         }
 
-        // Indica si hay un error para mostrar
+        /// <summary>
+        /// Indica si hay un error activo para mostrar en la interfaz
+        /// </summary>
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
-        // Command para crear una nueva actividad (abre ventana modal)
+        /// <summary>
+        /// Comando para crear una nueva actividad (abre ventana modal)
+        /// </summary>
         public ICommand NuevoCommand { get; }
 
-        // Command para editar la actividad seleccionada
+        /// <summary>
+        /// Comando para editar la actividad seleccionada
+        /// </summary>
         public ICommand EditarCommand { get; }
 
-        // Command para eliminar la actividad seleccionada
+        /// <summary>
+        /// Comando para eliminar la actividad seleccionada
+        /// </summary>
         public ICommand EliminarCommand { get; }
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa el servicio, comandos y carga los datos iniciales
+        /// </summary>
         public ActividadViewModel()
         {
             _actividadService = new ActividadService();
@@ -114,14 +137,19 @@ namespace ViewModel
             InicializarAsync();
         }
 
-        // Inicializa la carga de datos de forma asíncrona
+        /// <summary>
+        /// Inicializa la carga de datos de forma asíncrona y selecciona la primera actividad
+        /// </summary>
         public async void InicializarAsync()
         {
             await CargarActividadesAsync();
             SeleccionarPrimero();
         }
 
-        // Carga la lista de actividades desde la base de datos
+        /// <summary>
+        /// Carga la lista de actividades desde la base de datos y actualiza la colección observable
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         private async Task CargarActividadesAsync()
         {
             try
@@ -144,7 +172,9 @@ namespace ViewModel
             }
         }
 
-        // Selecciona la primera actividad de la lista
+        /// <summary>
+        /// Selecciona la primera actividad de la lista
+        /// </summary>
         private void SeleccionarPrimero()
         {
             if (Actividades.Count > 0)
@@ -157,8 +187,11 @@ namespace ViewModel
             }
         }
 
-        // Mantiene la selección de la actividad en el índice especificado
-        // Si el índice es inválido, selecciona la primera
+        /// <summary>
+        /// Mantiene la selección de la actividad en el índice especificado.
+        /// Si el índice es inválido, selecciona la primera
+        /// </summary>
+        /// <param name="indice">Índice de la actividad a seleccionar</param>
         private void MantieneSeleccion(int indice)
         {
             if (Actividades.Count == 0)
@@ -175,9 +208,12 @@ namespace ViewModel
             }
         }
 
-        // Selecciona la actividad anterior al índice especificado al eliminar
-        // Si se eliminó la primera, selecciona la nueva primera
-        // Si no quedan actividades, no selecciona ninguna
+        /// <summary>
+        /// Selecciona la actividad anterior al índice especificado al eliminar.
+        /// Si se eliminó la primera, selecciona la nueva primera.
+        /// Si no quedan actividades, no selecciona ninguna
+        /// </summary>
+        /// <param name="indiceEliminado">Índice de la actividad que fue eliminada</param>
         private void SeleccionaAnterior(int indiceEliminado)
         {
             if (Actividades.Count == 0)
@@ -201,13 +237,18 @@ namespace ViewModel
             }
         }
 
-        // Abre la ventana modal para crear una nueva actividad
+        /// <summary>
+        /// Abre la ventana modal para crear una nueva actividad
+        /// </summary>
         private void NuevaActividad()
         {
             VentanaNuevaActividad?.Invoke();
         }
 
-        // Edita la actividad seleccionada con los datos de los TextBox
+        /// <summary>
+        /// Edita la actividad seleccionada con los datos de los TextBox,
+        /// validando los datos y guardando los cambios en la base de datos
+        /// </summary>
         private async void EditarActividad()
         {
             // Verifica que haya una fila seleccionada
@@ -246,7 +287,9 @@ namespace ViewModel
             }
         }
 
-        // Elimina la actividad seleccionada después de confirmación
+        /// <summary>
+        /// Solicita confirmación para eliminar la actividad seleccionada
+        /// </summary>
         private void EliminarActividad()
         {
             if (ActividadSeleccionada == null)
@@ -261,7 +304,10 @@ namespace ViewModel
             }
         }
 
-        // Confirma y ejecuta la eliminación de la actividad
+        /// <summary>
+        /// Confirma y ejecuta la eliminación de la actividad de la base de datos
+        /// </summary>
+        /// <param name="idActividad">Identificador de la actividad a eliminar</param>
         public async void ConfirmarEliminarActividad(int idActividad)
         {
             try
@@ -294,7 +340,10 @@ namespace ViewModel
             }
         }
 
-        // Valida los datos del formulario
+        /// <summary>
+        /// Valida los datos del formulario de edición de actividades
+        /// </summary>
+        /// <returns>True si los datos son válidos, false en caso contrario</returns>
         private bool ValidarFormulario()
         {
             // Validación del Nombre
@@ -338,19 +387,34 @@ namespace ViewModel
             return true;
         }
 
-        // Limpia los campos del formulario
+        /// <summary>
+        /// Limpia los campos del formulario de edición
+        /// </summary>
         private void LimpiarFormulario()
         {
             Nombre = string.Empty;
             AforoMaximo = string.Empty;
         }
 
-        // Actions para comunicar con la Vista (más simple que eventos)
+        /// <summary>
+        /// Acción para comunicar con la Vista y abrir la ventana de nueva actividad
+        /// </summary>
         public Action VentanaNuevaActividad { get; set; }
+        
+        /// <summary>
+        /// Acción para comunicar con la Vista y solicitar confirmación de eliminación
+        /// </summary>
         public Action<(int IdActividad, string Nombre)> ConfirmarEliminar { get; set; }
 
-        // INotifyPropertyChanged
+        /// <summary>
+        /// Evento que notifica cambios en las propiedades para actualizar la interfaz
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Método auxiliar para invocar el evento PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad que cambió</param>
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

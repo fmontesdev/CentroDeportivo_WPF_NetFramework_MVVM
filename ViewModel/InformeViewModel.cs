@@ -14,21 +14,30 @@ using Reports.Windows;
 
 namespace ViewModel
 {
-    // ViewModel para la vista de informes (InformesView)
-    // Maneja la lista de informes disponibles y la generación de cada uno
+    /// <summary>
+    /// ViewModel para la vista de informes (InformesView).
+    /// Maneja la lista de informes disponibles y coordina la generación de cada tipo de informe
+    /// </summary>
     public class InformeViewModel : INotifyPropertyChanged
     {
-        // Propiedades privadas
         private readonly InformeService _informeService;
         private readonly ActividadService _actividadService;
         private Informe _informeSeleccionado;
         private Actividad _actividadSeleccionada;
 
-        // Colecciones observables para la UI
+        /// <summary>
+        /// Colección observable de informes disponibles para el ListBox
+        /// </summary>
         public ObservableCollection<Informe> InformesDisponibles { get; set; }
+        
+        /// <summary>
+        /// Colección observable de actividades para el ComboBox de filtro
+        /// </summary>
         public ObservableCollection<Actividad> Actividades { get; set; }
 
-        // Informe seleccionado de la lista
+        /// <summary>
+        /// Informe seleccionado de la lista
+        /// </summary>
         public Informe InformeSeleccionado
         {
             get => _informeSeleccionado;
@@ -41,7 +50,9 @@ namespace ViewModel
             }
         }
 
-        // Actividad seleccionada (para Informe 2: Reservas por Actividad)
+        /// <summary>
+        /// Actividad seleccionada para filtrar el informe de Reservas por Actividad
+        /// </summary>
         public Actividad ActividadSeleccionada
         {
             get => _actividadSeleccionada;
@@ -52,14 +63,24 @@ namespace ViewModel
             }
         }
 
-        // Propiedades calculadas para visibilidad en la UI
+        /// <summary>
+        /// Indica si hay un informe seleccionado para habilitar el botón de generación
+        /// </summary>
         public bool TieneInformeSeleccionado => InformeSeleccionado != null;
+        
+        /// <summary>
+        /// Indica si se debe mostrar el ComboBox de selección de actividad (solo para el informe Reservas por Actividad)
+        /// </summary>
         public bool MostrarFiltroActividad => InformeSeleccionado?.Tipo == TipoInforme.ListadoReservasPorActividad;
 
-        // Command para generar el informe seleccionado
+        /// <summary>
+        /// Comando para generar el informe seleccionado
+        /// </summary>
         public ICommand GenerarInformeCommand { get; }
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa los servicios, comandos y carga los datos
+        /// </summary>
         public InformeViewModel()
         {
             _informeService = new InformeService();
@@ -75,14 +96,18 @@ namespace ViewModel
             InicializarAsync();
         }
 
-        // Inicializa la carga de datos de forma asíncrona
+        /// <summary>
+        /// Inicializa la carga de datos de forma asíncrona
+        /// </summary>
         private async void InicializarAsync()
         {
             CargarInformesDisponibles();
             await CargarActividadesAsync();
         }
 
-        // Carga la lista de informes disponibles en el sistema
+        /// <summary>
+        /// Carga la lista de informes disponibles en el sistema
+        /// </summary>
         private void CargarInformesDisponibles()
         {
             var informes = ListaInformes.ObtenerInformesDisponibles();
@@ -93,7 +118,10 @@ namespace ViewModel
             }
         }
 
-        // Carga las actividades para el ComboBox de filtro
+        /// <summary>
+        /// Carga las actividades disponibles para el ComboBox de filtro
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         private async Task CargarActividadesAsync()
         {
             try
@@ -122,7 +150,9 @@ namespace ViewModel
             }
         }
 
-        // Genera el informe seleccionado
+        /// <summary>
+        /// Genera y muestra el informe seleccionado según su tipo
+        /// </summary>
         private async void GenerarInforme()
         {
             // Validar que haya un informe seleccionado
@@ -169,7 +199,10 @@ namespace ViewModel
             }
         }
 
-        // Genera el informe listado de socios
+        /// <summary>
+        /// Genera el informe de listado de socios y abre la ventana del visor
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         private async Task GenerarListadoSocios()
         {
             var dataSet = await _informeService.GenerarDataSetSociosAsync();
@@ -179,7 +212,10 @@ namespace ViewModel
             ventana.ShowDialog();
         }
 
-        // Genera el informe reservas por actividad
+        /// <summary>
+        /// Genera el informe de reservas por actividad y abre la ventana del visor
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         private async Task GenerarListadoReservasPorActividad()
         {
             var dataSet = await _informeService.GenerarDataSetReservasPorActividadAsync(ActividadSeleccionada.IdActividad);
@@ -189,7 +225,10 @@ namespace ViewModel
             ventana.ShowDialog();
         }
 
-        // Genera el informe historial de reservas por socio
+        /// <summary>
+        /// Genera el informe de historial de reservas por socio y abre la ventana del visor
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         private async Task GenerarHistorialReservas()
         {
             var dataSet = await _informeService.GenerarDataSetHistorialReservasAsync();
@@ -199,8 +238,15 @@ namespace ViewModel
             ventana.ShowDialog();
         }
 
-        // INotifyPropertyChanged
+        /// <summary>
+        /// Evento que notifica cambios en las propiedades para actualizar la interfaz
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Método auxiliar para invocar el evento PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad que cambió</param>
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

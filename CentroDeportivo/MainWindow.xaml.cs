@@ -17,9 +17,15 @@ using ViewModel;
 
 namespace CentroDeportivo
 {
-    // Code-behind para MainWindow.xaml
+    /// <summary>
+    /// Code-behind para MainWindow.xaml.
+    /// Ventana principal de la aplicación que gestiona la navegación entre vistas
+    /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Constructor que inicializa la ventana principal y configura el ViewModel
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +44,10 @@ namespace CentroDeportivo
             viewModel.InicializarVistaInicial();
         }
 
-        // Maneja el cambio de vista (responsabilidad de la Vista)
+        /// <summary>
+        /// Maneja el cambio de vista en el panel de contenido principal
+        /// </summary>
+        /// <param name="nombreVista">Nombre de la vista a mostrar (Reservas, Socios, Actividades, Informes)</param>
         private void CambiarVista(string nombreVista)
         {
             switch (nombreVista)

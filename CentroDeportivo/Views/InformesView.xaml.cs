@@ -3,9 +3,16 @@ using ViewModel;
 
 namespace CentroDeportivo.Views
 {
-    // Code-behind para InformesView.xaml
+    /// <summary>
+    /// Code-behind para InformesView.xaml.
+    /// Vista para la generación y visualización de informes del centro deportivo
+    /// </summary>
     public partial class InformesView : UserControl
     {
+        /// <summary>
+        /// Constructor que inicializa la vista y configura el ViewModel.
+        /// El ViewModel maneja toda la lógica de generación de informes
+        /// </summary>
         public InformesView()
         {
             InitializeComponent();

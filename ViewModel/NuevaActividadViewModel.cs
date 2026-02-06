@@ -12,18 +12,20 @@ using ViewModel.Services;
 
 namespace ViewModel
 {
-    // ViewModel para la ventana de creación de actividades (ventana modal)
-    // Implementa INotifyPropertyChanged para notificar cambios a la UI
-    // Usa validación con mensajes de error
+    /// <summary>
+    /// ViewModel para la ventana modal de creación de actividades.
+    /// Implementa validación y gestión de errores para el formulario de nueva actividad
+    /// </summary>
     public class NuevaActividadViewModel : INotifyPropertyChanged
     {
-        // Propiedades privadas
         private readonly ActividadService _actividadService;
         private string _nombre;
         private string _aforoMaximo;
         private string _errorMessage;
 
-        // Nombre de la actividad (enlazado al TextBox)
+        /// <summary>
+        /// Nombre de la actividad enlazado al TextBox
+        /// </summary>
         public string Nombre
         {
             get => _nombre;
@@ -34,7 +36,9 @@ namespace ViewModel
             }
         }
 
-        // Aforo máximo de la actividad (enlazado al TextBox)
+        /// <summary>
+        /// Aforo máximo de la actividad enlazado al TextBox
+        /// </summary>
         public string AforoMaximo
         {
             get => _aforoMaximo;
@@ -45,7 +49,9 @@ namespace ViewModel
             }
         }
 
-        // Mensaje de error
+        /// <summary>
+        /// Mensaje de error para mostrar al usuario
+        /// </summary>
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -57,16 +63,24 @@ namespace ViewModel
             }
         }
 
-        // Indica si hay un error para mostrar en la UI
+        /// <summary>
+        /// Indica si hay un error activo para mostrar en la interfaz
+        /// </summary>
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
-        // Command para crear la actividad
+        /// <summary>
+        /// Comando para crear la actividad y cerrar la ventana
+        /// </summary>
         public ICommand CrearCommand { get; }
 
-        // Command para cerrar la ventana sin guardar
+        /// <summary>
+        /// Comando para cerrar la ventana sin guardar
+        /// </summary>
         public ICommand CancelarCommand { get; }
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa el servicio y los comandos
+        /// </summary>
         public NuevaActividadViewModel()
         {
             _actividadService = new ActividadService();
@@ -76,7 +90,9 @@ namespace ViewModel
             CancelarCommand = new RelayCommand(Cancelar);
         }
 
-        // Crea la actividad en la base de datos
+        /// <summary>
+        /// Crea una nueva actividad en la base de datos después de validar el formulario
+        /// </summary>
         private async void CrearActividad()
         {
             // Valida el formulario y crea la actividad
@@ -112,8 +128,10 @@ namespace ViewModel
             }
         }
 
-        // Valida los campos del formulario
-        // Devuelve true si todo es válido, false si hay errores
+        /// <summary>
+        /// Valida los campos del formulario de creación de actividad
+        /// </summary>
+        /// <returns>True si todos los datos son válidos, false si hay errores</returns>
         private bool ValidarFormulario()
         {
             // Validación del Nombre
@@ -157,19 +175,33 @@ namespace ViewModel
             return true;
         }
 
-        // Cancela la operación y cierra la ventana
+        /// <summary>
+        /// Cancela la operación y cierra la ventana sin guardar
+        /// </summary>
         private void Cancelar()
         {
             CerrarVentanaCancelar?.Invoke();
         }
 
-        // Actions para cerrar la ventana (más simple que eventos)
-        // La vista asigna estas acciones al crear el ViewModel
+        /// <summary>
+        /// Acción para comunicar con la Vista y cerrar la ventana tras éxito
+        /// </summary>
         public Action CerrarVentanaExito { get; set; }
+        
+        /// <summary>
+        /// Acción para comunicar con la Vista y cerrar la ventana tras cancelar
+        /// </summary>
         public Action CerrarVentanaCancelar { get; set; }
 
-        // INotifyPropertyChanged
+        /// <summary>
+        /// Evento que notifica cambios en las propiedades para actualizar la interfaz
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Método auxiliar para invocar el evento PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad que cambió</param>
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

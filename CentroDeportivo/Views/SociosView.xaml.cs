@@ -17,9 +17,15 @@ using CentroDeportivo.Windows;
 
 namespace CentroDeportivo.Views
 {
-    // Code-behind para SociosView.xaml
+    /// <summary>
+    /// Code-behind para SociosView.xaml.
+    /// Vista principal para la gestión de socios del centro deportivo
+    /// </summary>
     public partial class SociosView : UserControl
     {
+        /// <summary>
+        /// Constructor que inicializa la vista y configura el ViewModel
+        /// </summary>
         public SociosView()
         {
             InitializeComponent();
@@ -35,7 +41,9 @@ namespace CentroDeportivo.Views
             this.DataContext = viewModel;
         }
 
-        // Abre la ventana modal para crear un nuevo socio
+        /// <summary>
+        /// Abre la ventana modal para crear un nuevo socio
+        /// </summary>
         private void VentanaNuevoSocio()
         {
             var ventana = new NuevoSocioWindow();
@@ -48,7 +56,10 @@ namespace CentroDeportivo.Views
             }
         }
 
-        // Muestra un MessageBox de confirmación antes de eliminar
+        /// <summary>
+        /// Muestra un diálogo de confirmación antes de eliminar un socio
+        /// </summary>
+        /// <param name="info">Tupla con el ID y nombre del socio a eliminar</param>
         private void ConfirmarEliminar((int IdSocio, string Nombre) info)
         {
             var resultado = MessageBox.Show(

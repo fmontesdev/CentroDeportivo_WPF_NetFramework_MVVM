@@ -15,7 +15,10 @@ namespace Reports.Reports {
     using CrystalDecisions.ReportSource;
     using CrystalDecisions.CrystalReports.Engine;
     
-    
+    /// <summary>
+    /// Clase auto-generada por Crystal Reports para el informe de listado de socios.
+    /// Define la estructura y configuración del reporte ListadoSocios.rpt
+    /// </summary>
     public class ListadoSocios : ReportClass {
         
         public ListadoSocios() {
@@ -89,6 +92,10 @@ namespace Reports.Reports {
         }
     }
     
+    /// <summary>
+    /// Clase auto-generada para el caché del informe de listado de socios.
+    /// Gestiona el almacenamiento en caché del reporte para mejorar el rendimiento
+    /// </summary>
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
     public class CachedListadoSocios : Component, ICachedReport {
         

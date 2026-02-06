@@ -15,10 +15,15 @@ using ViewModel;
 
 namespace CentroDeportivo.Windows
 {
-    // Code-behind para NuevoSocioWindow.xaml
+    /// <summary>
+    /// Code-behind para NuevoSocioWindow.xaml.
+    /// Ventana modal para crear un nuevo socio con validación de formulario
+    /// </summary>
     public partial class NuevoSocioWindow : Window
     {
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa la ventana y configura el ViewModel
+        /// </summary>
         public NuevoSocioWindow()
         {
             InitializeComponent();
@@ -34,7 +39,11 @@ namespace CentroDeportivo.Windows
             this.DataContext = viewModel;
         }
 
-        // Maneja la visibilidad de los placeholders
+        /// <summary>
+        /// Maneja la visibilidad de los placeholders de los TextBox
+        /// </summary>
+        /// <param name="sender">TextBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;

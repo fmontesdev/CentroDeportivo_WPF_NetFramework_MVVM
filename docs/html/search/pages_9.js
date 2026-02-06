@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['datos_0',['Datos',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md65',1,'🗄️ Base de Datos'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md22',1,'&lt;b&gt;Base de Datos&lt;/b&gt;'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md66',1,'&lt;b&gt;Esquema de Base de Datos&lt;/b&gt;'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md52',1,'&lt;b&gt;Infraestructura de Base de Datos&lt;/b&gt;']]],
+  ['datos_20remota_1',['&lt;b&gt;Paso 2: Configurar la Conexión a la Base de Datos Remota&lt;/b&gt;',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md56',1,'']]],
+  ['de_20actividades_2',['de Actividades',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md31',1,'🏃 Gestión de Actividades'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md45',1,'Gestión de Actividades']]],
+  ['de_20aforo_3',['3. &lt;b&gt;TestAforoMaximo&lt;/b&gt; - Control de Aforo',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md38',1,'']]],
+  ['de_20base_20de_20datos_4',['de Base de Datos',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md66',1,'&lt;b&gt;Esquema de Base de Datos&lt;/b&gt;'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md52',1,'&lt;b&gt;Infraestructura de Base de Datos&lt;/b&gt;']]],
+  ['de_20datos_5',['de Datos',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md65',1,'🗄️ Base de Datos'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md22',1,'&lt;b&gt;Base de Datos&lt;/b&gt;'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md66',1,'&lt;b&gt;Esquema de Base de Datos&lt;/b&gt;'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md52',1,'&lt;b&gt;Infraestructura de Base de Datos&lt;/b&gt;']]],
+  ['de_20datos_20remota_6',['&lt;b&gt;Paso 2: Configurar la Conexión a la Base de Datos Remota&lt;/b&gt;',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md56',1,'']]],
+  ['de_20emails_7',['1. &lt;b&gt;TestFormatoEmail&lt;/b&gt; - Validación de Emails',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md36',1,'']]],
+  ['de_20fechas_8',['2. &lt;b&gt;TestFechaReserva&lt;/b&gt; - Validación de Fechas',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md37',1,'']]],
+  ['de_20gestión_9',['🏋️ Centro Deportivo - Sistema de Gestión',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md16',1,'']]],
+  ['de_20informes_10',['Generación de Informes',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md47',1,'']]],
+  ['de_20listado_20de_20socios_11',['Informe de Listado de Socios',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md48',1,'']]],
+  ['de_20nueva_20reserva_12',['Creación de Nueva Reserva',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md46',1,'']]],
+  ['de_20pantalla_13',['📸 Capturas de Pantalla',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md42',1,'']]],
+  ['de_20pantalla_20centro_20deportivo_14',['Capturas de Pantalla - Centro Deportivo',['../dir_6eb7b32d73089168e41e8a249f13190c.html#autotoc_md0',1,'']]],
+  ['de_20reservas_15',['de Reservas',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md32',1,'📅 Gestión de Reservas'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md43',1,'Pantalla Principal - Gestión de Reservas']]],
+  ['de_20socios_16',['de Socios',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md30',1,'📋 Gestión de Socios'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md44',1,'Gestión de Socios'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md48',1,'Informe de Listado de Socios']]],
+  ['de_20tests_17',['de Tests',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md40',1,'✅ Cobertura de Tests'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md39',1,'📊 Ejecución de Tests']]],
+  ['del_20proyecto_18',['del Proyecto',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md17',1,'🎯 Descripción del Proyecto'],['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md28',1,'📁 Estructura del Proyecto']]],
+  ['del_20sistema_19',['💻 Requisitos del Sistema',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md50',1,'']]],
+  ['deportivo_20',['Capturas de Pantalla - Centro Deportivo',['../dir_6eb7b32d73089168e41e8a249f13190c.html#autotoc_md0',1,'']]],
+  ['deportivo_20sistema_20de_20gestión_21',['🏋️ Centro Deportivo - Sistema de Gestión',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md16',1,'']]],
+  ['descripción_20del_20proyecto_22',['🎯 Descripción del Proyecto',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md17',1,'']]],
+  ['desde_20visual_20studio_23',['&lt;b&gt;Desde Visual Studio&lt;/b&gt;',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md61',1,'']]],
+  ['documentación_24',['&lt;b&gt;Documentación&lt;/b&gt;',['../C:/Users/framo/source/repos/CentroDeportivo/README.md#autotoc_md26',1,'']]]
+];

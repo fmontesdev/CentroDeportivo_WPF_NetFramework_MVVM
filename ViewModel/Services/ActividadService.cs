@@ -8,24 +8,38 @@ using Model.Repositorios;
 
 namespace ViewModel.Services
 {
-    // Servicio que encapsula la lógica de negocio para la gestión de actividades
-    // Actúa como intermediario entre el ViewModel y el Repositorio
+    /// <summary>
+    /// Servicio que encapsula la lógica de negocio para la gestión de actividades.
+    /// Actúa como intermediario entre el ViewModel y el Repositorio
+    /// </summary>
     public class ActividadService
     {
         private readonly ActividadRepositorio _repo;
 
+        /// <summary>
+        /// Constructor que inicializa el repositorio de actividades
+        /// </summary>
         public ActividadService()
         {
             _repo = new ActividadRepositorio();
         }
 
-        // Obtiene todas las actividades de la base de datos
+        /// <summary>
+        /// Obtiene todas las actividades de la base de datos
+        /// </summary>
+        /// <returns>Lista de todas las actividades registradas</returns>
         public async Task<List<Actividad>> ObtenerActividadesAsync()
         {
             return await _repo.SeleccionarAsync();
         }
 
-        // Crea una nueva actividad en la base de datos
+        /// <summary>
+        /// Crea una nueva actividad en la base de datos después de validar las reglas de negocio
+        /// </summary>
+        /// <param name="actividad">Actividad a crear</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
+        /// <exception cref="ArgumentNullException">Si la actividad es nula</exception>
+        /// <exception cref="ArgumentException">Si los datos de la actividad no son válidos</exception>
         public async Task CrearActividadAsync(Actividad actividad)
         {
             // Validaciones de negocio
@@ -34,7 +48,13 @@ namespace ViewModel.Services
             await _repo.CrearAsync(actividad);
         }
 
-        // Actualiza una actividad existente
+        /// <summary>
+        /// Actualiza los datos de una actividad existente después de validar las reglas de negocio
+        /// </summary>
+        /// <param name="actividad">Actividad con los datos actualizados</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
+        /// <exception cref="ArgumentNullException">Si la actividad es nula</exception>
+        /// <exception cref="ArgumentException">Si los datos de la actividad no son válidos</exception>
         public async Task ActualizarActividadAsync(Actividad actividad)
         {
             // Validaciones de negocio
@@ -43,7 +63,13 @@ namespace ViewModel.Services
             await _repo.GuardarAsync();
         }
 
-        // Elimina una actividad de la base de datos
+        /// <summary>
+        /// Elimina una actividad de la base de datos si no tiene reservas asociadas
+        /// </summary>
+        /// <param name="actividad">Actividad a eliminar</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
+        /// <exception cref="ArgumentNullException">Si la actividad es nula</exception>
+        /// <exception cref="InvalidOperationException">Si la actividad tiene reservas asociadas</exception>
         public async Task EliminarActividadAsync(Actividad actividad)
         {
             if (actividad == null)
@@ -60,7 +86,12 @@ namespace ViewModel.Services
             await _repo.EliminarAsync(actividad);
         }
 
-        // Valida los datos de una actividad según las reglas de negocio
+        /// <summary>
+        /// Valida los datos de una actividad según las reglas de negocio
+        /// </summary>
+        /// <param name="actividad">Actividad a validar</param>
+        /// <exception cref="ArgumentNullException">Si la actividad es nula</exception>
+        /// <exception cref="ArgumentException">Si el nombre o aforo no cumplen las validaciones</exception>
         private void ValidarActividad(Actividad actividad)
         {
             if (actividad == null)

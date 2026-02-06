@@ -12,25 +12,30 @@ using ViewModel.Services;
 
 namespace ViewModel
 {
-    // ViewModel para la vista principal de gestión de reservas (ReservasView)
-    // Maneja la lista de reservas, selección y operaciones CRUD
+    /// <summary>
+    /// ViewModel para la vista principal de gestión de reservas (ReservasView).
+    /// Maneja la lista de reservas, selección, filtrado y operaciones CRUD
+    /// </summary>
     public class ReservaViewModel : INotifyPropertyChanged
     {
-        // Propiedades privadas
         private readonly ReservaService _reservaService;
         private Reserva _reservaSeleccionada;
         private DateTime? _fechaReserva;
         private string _buscarSocio;
         private string _buscarActividad;
         private string _errorMessage;
-        private List<Reserva> _todasLasReservas; // Lista completa para filtrado
+        private List<Reserva> _todasLasReservas;
 
-        // Colección observable de reservas para el DataGrid
-        // Actualiza la UI automáticamente
+        /// <summary>
+        /// Colección observable de reservas para el DataGrid.
+        /// Se actualiza automáticamente en la interfaz de usuario
+        /// </summary>
         public ObservableCollection<Reserva> Reservas { get; set; }
 
-        // Reserva seleccionada en el DataGrid
-        // Al seleccionar una reserva, se cargan sus datos en los campos
+        /// <summary>
+        /// Reserva seleccionada en el DataGrid.
+        /// Al seleccionar una reserva, se cargan sus datos en los campos
+        /// </summary>
         public Reserva ReservaSeleccionada
         {
             get => _reservaSeleccionada;
@@ -53,7 +58,9 @@ namespace ViewModel
             }
         }
 
-        // Fecha de reserva (enlazada al DatePicker)
+        /// <summary>
+        /// Fecha de la reserva enlazada al DatePicker de edición
+        /// </summary>
         public DateTime? FechaReserva
         {
             get => _fechaReserva;
@@ -64,8 +71,10 @@ namespace ViewModel
             }
         }
 
-        // Nombre del socio (solo lectura)
         private string _socioNombre;
+        /// <summary>
+        /// Nombre del socio de la reserva seleccionada (solo lectura)
+        /// </summary>
         public string SocioNombre
         {
             get => _socioNombre;
@@ -76,8 +85,10 @@ namespace ViewModel
             }
         }
 
-        // Nombre de la actividad (solo lectura)
         private string _actividadNombre;
+        /// <summary>
+        /// Nombre de la actividad de la reserva seleccionada (solo lectura)
+        /// </summary>
         public string ActividadNombre
         {
             get => _actividadNombre;
@@ -88,7 +99,9 @@ namespace ViewModel
             }
         }
 
-        // Filtro de búsqueda por socio
+        /// <summary>
+        /// Criterio de búsqueda para filtrar reservas por nombre de socio
+        /// </summary>
         public string BuscarSocio
         {
             get => _buscarSocio;
@@ -100,7 +113,9 @@ namespace ViewModel
             }
         }
 
-        // Filtro de búsqueda por actividad
+        /// <summary>
+        /// Criterio de búsqueda para filtrar reservas por nombre de actividad
+        /// </summary>
         public string BuscarActividad
         {
             get => _buscarActividad;
@@ -112,10 +127,14 @@ namespace ViewModel
             }
         }
 
-        // Total de reservas (para mostrar en la UI)
+        /// <summary>
+        /// Total de reservas en la colección actual (considerando filtros aplicados)
+        /// </summary>
         public int TotalReservas => Reservas?.Count ?? 0;
 
-        // Mensaje de error
+        /// <summary>
+        /// Mensaje de error para mostrar al usuario
+        /// </summary>
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -127,22 +146,34 @@ namespace ViewModel
             }
         }
 
-        // Indica si hay un error para mostrar
+        /// <summary>
+        /// Indica si hay un error activo para mostrar en la interfaz
+        /// </summary>
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
-        // Command para crear una nueva reserva (abre ventana modal)
+        /// <summary>
+        /// Comando para crear una nueva reserva (abre ventana modal)
+        /// </summary>
         public ICommand NuevaCommand { get; }
 
-        // Command para editar la reserva seleccionada
+        /// <summary>
+        /// Comando para editar la reserva seleccionada
+        /// </summary>
         public ICommand EditarCommand { get; }
 
-        // Command para cancelar/eliminar la reserva seleccionada
+        /// <summary>
+        /// Comando para cancelar/eliminar la reserva seleccionada
+        /// </summary>
         public ICommand CancelarCommand { get; }
 
-        // Command para limpiar filtros de búsqueda
+        /// <summary>
+        /// Comando para limpiar los filtros de búsqueda
+        /// </summary>
         public ICommand LimpiarBusquedaCommand { get; }
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa los servicios, comandos y carga los datos iniciales
+        /// </summary>
         public ReservaViewModel()
         {
             _reservaService = new ReservaService();
@@ -163,14 +194,19 @@ namespace ViewModel
             InicializarAsync();
         }
 
-        // Inicializa la carga de datos de forma asíncrona
+        /// <summary>
+        /// Inicializa la carga de datos de forma asíncrona y selecciona la primera reserva
+        /// </summary>
         public async void InicializarAsync()
         {
             await CargarReservasAsync();
             SeleccionarPrimero();
         }
 
-        // Carga la lista de reservas desde la base de datos
+        /// <summary>
+        /// Carga la lista de reservas desde la base de datos y actualiza la colección observable
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         private async Task CargarReservasAsync()
         {
             try
@@ -194,7 +230,9 @@ namespace ViewModel
             }
         }
 
-        // Selecciona la primera reserva de la lista
+        /// <summary>
+        /// Selecciona la primera reserva de la lista
+        /// </summary>
         private void SeleccionarPrimero()
         {
             if (Reservas.Count > 0)
@@ -207,8 +245,11 @@ namespace ViewModel
             }
         }
 
-        // Mantiene la selección de la reserva en el índice especificado
-        // Si el índice es inválido, selecciona la primera
+        /// <summary>
+        /// Mantiene la selección de la reserva en el índice especificado.
+        /// Si el índice es inválido, selecciona la primera
+        /// </summary>
+        /// <param name="indice">Índice de la reserva a seleccionar</param>
         private void MantieneSeleccion(int indice)
         {
             if (Reservas.Count == 0)
@@ -225,9 +266,12 @@ namespace ViewModel
             }
         }
 
-        // Selecciona la reserva anterior al índice especificado al eliminar
-        // Si se eliminó la primera, selecciona la nueva primera
-        // Si no quedan reservas, no selecciona ninguna
+        /// <summary>
+        /// Selecciona la reserva anterior al índice especificado al eliminar.
+        /// Si se eliminó la primera, selecciona la nueva primera.
+        /// Si no quedan reservas, no selecciona ninguna
+        /// </summary>
+        /// <param name="indiceEliminado">Índice de la reserva que fue eliminada</param>
         private void SeleccionaAnterior(int indiceEliminado)
         {
             if (Reservas.Count == 0)
@@ -251,7 +295,9 @@ namespace ViewModel
             }
         }
 
-        // Aplica los filtros de búsqueda
+        /// <summary>
+        /// Aplica los filtros de búsqueda por socio y actividad sobre la lista completa de reservas
+        /// </summary>
         private void AplicarFiltros()
         {
             // Verifica que la lista completa no sea nula
@@ -286,20 +332,27 @@ namespace ViewModel
             }
         }
 
-        // Limpia los filtros de búsqueda
+        /// <summary>
+        /// Limpia los filtros de búsqueda y muestra todas las reservas
+        /// </summary>
         private void LimpiarBusqueda()
         {
             BuscarSocio = string.Empty;
             BuscarActividad = string.Empty;
         }
 
-        // Abre la ventana modal para crear una nueva reserva
+        /// <summary>
+        /// Abre la ventana modal para crear una nueva reserva
+        /// </summary>
         private void NuevaReserva()
         {
             VentanaNuevaReserva?.Invoke();
         }
 
-        // Edita la reserva seleccionada con los datos del DatePicker
+        /// <summary>
+        /// Edita la reserva seleccionada con los datos del DatePicker,
+        /// validando los datos y guardando los cambios en la base de datos
+        /// </summary>
         private async void EditarReserva()
         {
             // Verifica que haya una fila seleccionada
@@ -337,7 +390,9 @@ namespace ViewModel
             }
         }
 
-        // Cancela/elimina la reserva seleccionada después de confirmación
+        /// <summary>
+        /// Solicita confirmación para cancelar/eliminar la reserva seleccionada
+        /// </summary>
         private void CancelarReserva()
         {
             if (ReservaSeleccionada == null)
@@ -356,7 +411,10 @@ namespace ViewModel
             }
         }
 
-        // Confirma y ejecuta la cancelación de la reserva
+        /// <summary>
+        /// Confirma y ejecuta la cancelación/eliminación de la reserva de la base de datos
+        /// </summary>
+        /// <param name="idReserva">Identificador de la reserva a cancelar</param>
         public async void ConfirmarCancelarReserva(int idReserva)
         {
             try
@@ -384,7 +442,10 @@ namespace ViewModel
             }
         }
 
-        // Valida los datos del formulario
+        /// <summary>
+        /// Valida los datos del formulario de edición de reservas
+        /// </summary>
+        /// <returns>True si los datos son válidos, false en caso contrario</returns>
         private bool ValidarFormulario()
         {
             // Validación de la Fecha
@@ -403,7 +464,9 @@ namespace ViewModel
             return true;
         }
 
-        // Limpia los campos del formulario
+        /// <summary>
+        /// Limpia los campos del formulario de edición
+        /// </summary>
         private void LimpiarFormulario()
         {
             FechaReserva = null;
@@ -411,12 +474,25 @@ namespace ViewModel
             ActividadNombre = "Actividad";
         }
 
-        // Actions para comunicar con la Vista (más simple que eventos)
+        /// <summary>
+        /// Acción para comunicar con la Vista y abrir la ventana de nueva reserva
+        /// </summary>
         public Action VentanaNuevaReserva { get; set; }
+        
+        /// <summary>
+        /// Acción para comunicar con la Vista y solicitar confirmación de cancelación
+        /// </summary>
         public Action<(int IdReserva, string NombreSocio, string NombreActividad)> ConfirmarCancelar { get; set; }
 
-        // INotifyPropertyChanged
+        /// <summary>
+        /// Evento que notifica cambios en las propiedades para actualizar la interfaz
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Método auxiliar para invocar el evento PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad que cambió</param>
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

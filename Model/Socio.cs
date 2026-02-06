@@ -12,19 +12,43 @@ namespace Model
     using System;
     using System.Collections.Generic;
     
+    /// <summary>
+    /// Representa un socio del centro deportivo
+    /// </summary>
     public partial class Socio
     {
+        /// <summary>
+        /// Constructor por defecto. Inicializa la colección de reservas
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Socio()
         {
             this.Reserva = new HashSet<Reserva>();
         }
     
+        /// <summary>
+        /// Identificador único del socio
+        /// </summary>
         public int IdSocio { get; set; }
+        
+        /// <summary>
+        /// Nombre completo del socio
+        /// </summary>
         public string Nombre { get; set; }
+        
+        /// <summary>
+        /// Dirección de correo electrónico del socio
+        /// </summary>
         public string Email { get; set; }
+        
+        /// <summary>
+        /// Indica si el socio está activo en el centro deportivo
+        /// </summary>
         public bool Activo { get; set; }
     
+        /// <summary>
+        /// Colección de reservas asociadas al socio
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reserva> Reserva { get; set; }
     }

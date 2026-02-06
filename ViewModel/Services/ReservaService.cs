@@ -8,14 +8,19 @@ using Model.Repositorios;
 
 namespace ViewModel.Services
 {
-    // Servicio que encapsula la lógica de negocio para la gestión de reservas
-    // Actúa como intermediario entre el ViewModel y el Repositorio
+    /// <summary>
+    /// Servicio que encapsula la lógica de negocio para la gestión de reservas.
+    /// Actúa como intermediario entre el ViewModel y el Repositorio, y coordina con otros servicios
+    /// </summary>
     public class ReservaService
     {
         private readonly ReservaRepositorio _reservaRepo;
         private readonly SocioService _socioService;
         private readonly ActividadService _actividadService;
 
+        /// <summary>
+        /// Constructor que inicializa el repositorio de reservas y los servicios relacionados
+        /// </summary>
         public ReservaService()
         {
             _reservaRepo = new ReservaRepositorio();
@@ -23,13 +28,25 @@ namespace ViewModel.Services
             _actividadService = new ActividadService();
         }
 
-        // Obtiene todas las reservas de la base de datos
+        /// <summary>
+        /// Obtiene todas las reservas de la base de datos
+        /// </summary>
+        /// <returns>Lista de todas las reservas registradas</returns>
         public async Task<List<Reserva>> ObtenerReservasAsync()
         {
             return await _reservaRepo.SeleccionarAsync();
         }
 
-        // Crea una nueva reserva en la base de datos
+        /// <summary>
+        /// Crea una nueva reserva en la base de datos después de validar las reglas de negocio.
+        /// Verifica que el socio esté activo, que la actividad exista, que no haya reservas duplicadas
+        /// y que no se exceda el aforo máximo de la actividad
+        /// </summary>
+        /// <param name="reserva">Reserva a crear</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
+        /// <exception cref="ArgumentNullException">Si la reserva es nula</exception>
+        /// <exception cref="ArgumentException">Si los datos de la reserva no son válidos o el socio/actividad no existen</exception>
+        /// <exception cref="InvalidOperationException">Si ya existe una reserva duplicada o se excede el aforo</exception>
         public async Task CrearReservaAsync(Reserva reserva)
         {
             // Validaciones de negocio
@@ -75,7 +92,13 @@ namespace ViewModel.Services
             await _reservaRepo.CrearAsync(reserva);
         }
 
-        // Actualiza una reserva existente
+        /// <summary>
+        /// Actualiza los datos de una reserva existente
+        /// </summary>
+        /// <param name="reserva">Reserva con los datos actualizados</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
+        /// <exception cref="ArgumentNullException">Si la reserva es nula</exception>
+        /// <exception cref="InvalidOperationException">Si la reserva no existe</exception>
         public async Task ActualizarReservaAsync(Reserva reserva)
         {
             if (reserva == null)
@@ -91,7 +114,13 @@ namespace ViewModel.Services
             await _reservaRepo.GuardarAsync();
         }
 
-        // Elimina una reserva de la base de datos
+        /// <summary>
+        /// Elimina una reserva de la base de datos
+        /// </summary>
+        /// <param name="reserva">Reserva a eliminar</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
+        /// <exception cref="ArgumentNullException">Si la reserva es nula</exception>
+        /// <exception cref="InvalidOperationException">Si la reserva no existe</exception>
         public async Task EliminarReservaAsync(Reserva reserva)
         {
             if (reserva == null)
@@ -106,7 +135,12 @@ namespace ViewModel.Services
             await _reservaRepo.EliminarAsync(reserva);
         }
 
-        // Valida los datos de una reserva según las reglas de negocio
+        /// <summary>
+        /// Valida los datos básicos de una reserva según las reglas de negocio
+        /// </summary>
+        /// <param name="reserva">Reserva a validar</param>
+        /// <exception cref="ArgumentNullException">Si la reserva es nula</exception>
+        /// <exception cref="ArgumentException">Si los datos de la reserva no cumplen las validaciones</exception>
         private void ValidarReserva(Reserva reserva)
         {
             if (reserva == null)

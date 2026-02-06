@@ -4,10 +4,16 @@ using System.Collections.Generic;
 
 namespace Testing
 {
+    /// <summary>
+    /// Clase de pruebas unitarias para validar el formato de emails de socios.
+    /// Verifica que la validación de emails acepte formatos válidos y rechace inválidos
+    /// </summary>
     [TestClass]
     public sealed class TestFormatoEmail
     {
-        // Socios de prueba con emails válidos e inválidos
+        /// <summary>
+        /// Lista de socios con emails en formato válido para pruebas positivas
+        /// </summary>
         private readonly List<Socio> sociosValidos = new List<Socio>
         {
             new Socio
@@ -26,6 +32,10 @@ namespace Testing
                 Email = "usuario@mail.dominio.com"
             }
         };
+        
+        /// <summary>
+        /// Lista de socios con emails en formato inválido para pruebas negativas
+        /// </summary>
         private readonly List<Socio> sociosInvalidos = new List<Socio>
         {
             new Socio
@@ -50,7 +60,10 @@ namespace Testing
             }
         };
 
-        // Test que comprueba emails válidos
+        /// <summary>
+        /// Prueba que verifica que emails con formato válido son aceptados por la validación.
+        /// Recorre la lista de emails válidos y comprueba que ValidarFormulario retorna true
+        /// </summary>
         [TestMethod]
         public void TestEmailsValidos_RetornaTrue()
         {
@@ -69,7 +82,10 @@ namespace Testing
             }
         }
 
-        // Test que comprueba emails inválidos
+        /// <summary>
+        /// Prueba que verifica que emails con formato inválido son rechazados por la validación.
+        /// Recorre la lista de emails inválidos y comprueba que ValidarFormulario retorna false
+        /// </summary>
         [TestMethod]
         public void TestEmailsInvalidos_RetornaFalse()
         {

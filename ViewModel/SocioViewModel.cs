@@ -13,11 +13,12 @@ using ViewModel.Services;
 
 namespace ViewModel
 {
-    // ViewModel para la vista principal de gestión de socios (SociosView)
-    // Maneja la lista de socios, selección y operaciones CRUD
+    /// <summary>
+    /// ViewModel para la vista principal de gestión de socios (SociosView).
+    /// Maneja la lista de socios, selección y operaciones CRUD
+    /// </summary>
     public class SocioViewModel : INotifyPropertyChanged
     {
-        // Propiedades privadas
         private readonly SocioService _socioService;
         private Socio _socioSeleccionado;
         private string _nombre;
@@ -25,12 +26,16 @@ namespace ViewModel
         private bool _activo;
         private string _errorMessage;
 
-        // Colección observable de socios para el DataGrid
-        // Actualiza la UI automáticamente
+        /// <summary>
+        /// Colección observable de socios para el DataGrid.
+        /// Se actualiza automáticamente en la interfaz de usuario
+        /// </summary>
         public ObservableCollection<Socio> Socios { get; set; }
 
-        // Socio seleccionado en el DataGrid
-        // Al seleccionar un socio, se cargan sus datos en los TextBox
+        /// <summary>
+        /// Socio seleccionado en el DataGrid.
+        /// Al seleccionar un socio, se cargan sus datos en los TextBox
+        /// </summary>
         public Socio SocioSeleccionado
         {
             get => _socioSeleccionado;
@@ -53,7 +58,9 @@ namespace ViewModel
             }
         }
 
-        // Nombre del socio (enlazado al TextBox)
+        /// <summary>
+        /// Nombre del socio enlazado al TextBox de edición
+        /// </summary>
         public string Nombre
         {
             get => _nombre;
@@ -64,7 +71,9 @@ namespace ViewModel
             }
         }
 
-        // Email del socio (enlazado al TextBox)
+        /// <summary>
+        /// Email del socio enlazado al TextBox de edición
+        /// </summary>
         public string Email
         {
             get => _email;
@@ -75,7 +84,9 @@ namespace ViewModel
             }
         }
 
-        // Activo del socio (enlazado al CheckBox)
+        /// <summary>
+        /// Estado activo del socio enlazado al CheckBox de edición
+        /// </summary>
         public bool Activo
         {
             get => _activo;
@@ -86,10 +97,14 @@ namespace ViewModel
             }
         }
 
-        // Total de socios (para mostrar en la UI)
+        /// <summary>
+        /// Total de socios registrados en la colección
+        /// </summary>
         public int TotalSocios => Socios?.Count ?? 0;
 
-        // Mensaje de error
+        /// <summary>
+        /// Mensaje de error para mostrar al usuario
+        /// </summary>
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -101,19 +116,29 @@ namespace ViewModel
             }
         }
 
-        // Indica si hay un error para mostrar
+        /// <summary>
+        /// Indica si hay un error activo para mostrar en la interfaz
+        /// </summary>
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
-        // Command para crear un nuevo socio (abre ventana modal)
+        /// <summary>
+        /// Comando para crear un nuevo socio (abre ventana modal)
+        /// </summary>
         public ICommand NuevoCommand { get; }
 
-        // Command para editar el socio seleccionado
+        /// <summary>
+        /// Comando para editar el socio seleccionado
+        /// </summary>
         public ICommand EditarCommand { get; }
 
-        // Command para eliminar el socio seleccionado
+        /// <summary>
+        /// Comando para eliminar el socio seleccionado
+        /// </summary>
         public ICommand EliminarCommand { get; }
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa el servicio, comandos y carga los datos iniciales
+        /// </summary>
         public SocioViewModel()
         {
             _socioService = new SocioService();
@@ -128,14 +153,19 @@ namespace ViewModel
             InicializarAsync();
         }
 
-        // Inicializa la carga de datos de forma asíncrona
+        /// <summary>
+        /// Inicializa la carga de datos de forma asíncrona y selecciona el primer socio
+        /// </summary>
         public async void InicializarAsync()
         {
             await CargarSociosAsync();
             SeleccionarPrimero();
         }
 
-        // Carga la lista de socios desde la base de datos
+        /// <summary>
+        /// Carga la lista de socios desde la base de datos y actualiza la colección observable
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         private async Task CargarSociosAsync()
         {
             try
@@ -158,7 +188,9 @@ namespace ViewModel
             }
         }
 
-        // Selecciona el primer socio de la lista
+        /// <summary>
+        /// Selecciona el primer socio de la lista
+        /// </summary>
         private void SeleccionarPrimero()
         {
             if (Socios.Count > 0)
@@ -171,8 +203,11 @@ namespace ViewModel
             }
         }
 
-        // Mantiene la selección del socio en el índice especificado
-        // Si el índice es inválido, selecciona el primero
+        /// <summary>
+        /// Mantiene la selección del socio en el índice especificado.
+        /// Si el índice es inválido, selecciona el primero
+        /// </summary>
+        /// <param name="indice">Índice del socio a seleccionar</param>
         private void MantieneSeleccion(int indice)
         {
             if (Socios.Count == 0)
@@ -189,9 +224,12 @@ namespace ViewModel
             }
         }
 
-        // Selecciona el socio anterior al índice especificado al eliminar
-        // Si se eliminó el primero, selecciona el nuevo primero
-        // Si no quedan socios, no selecciona ninguno
+        /// <summary>
+        /// Selecciona el socio anterior al índice especificado al eliminar.
+        /// Si se eliminó el primero, selecciona el nuevo primero.
+        /// Si no quedan socios, no selecciona ninguno
+        /// </summary>
+        /// <param name="indiceEliminado">Índice del socio que fue eliminado</param>
         private void SeleccionaAnterior(int indiceEliminado)
         {
             if (Socios.Count == 0)
@@ -215,13 +253,18 @@ namespace ViewModel
             }
         }
 
-        // Abre la ventana modal para crear un nuevo socio
+        /// <summary>
+        /// Abre la ventana modal para crear un nuevo socio
+        /// </summary>
         private void NuevoSocio()
         {
             VentanaNuevoSocio?.Invoke();
         }
 
-        // Edita el socio seleccionado con los datos de los TextBox
+        /// <summary>
+        /// Edita el socio seleccionado con los datos de los TextBox,
+        /// validando los datos y guardando los cambios en la base de datos
+        /// </summary>
         private async void EditarSocio()
         {
             // Verifica que haya una fila seleccionada
@@ -261,7 +304,9 @@ namespace ViewModel
             }
         }
 
-        // Elimina el socio seleccionado después de confirmación
+        /// <summary>
+        /// Solicita confirmación para eliminar el socio seleccionado
+        /// </summary>
         private void EliminarSocio()
         {
             if (SocioSeleccionado == null)
@@ -276,7 +321,10 @@ namespace ViewModel
             }
         }
 
-        // Confirma y ejecuta la eliminación del socio
+        /// <summary>
+        /// Confirma y ejecuta la eliminación del socio de la base de datos
+        /// </summary>
+        /// <param name="idSocio">Identificador del socio a eliminar</param>
         public async void ConfirmarEliminarSocio(int idSocio)
         {
             try
@@ -309,7 +357,10 @@ namespace ViewModel
             }
         }
 
-        // Valida los datos del formulario
+        /// <summary>
+        /// Valida los datos del formulario de edición de socios
+        /// </summary>
+        /// <returns>True si los datos son válidos, false en caso contrario</returns>
         private bool ValidarFormulario()
         {
             // Patrón de email
@@ -350,7 +401,9 @@ namespace ViewModel
             return true;
         }
 
-        // Limpia los campos del formulario
+        /// <summary>
+        /// Limpia los campos del formulario de edición
+        /// </summary>
         private void LimpiarFormulario()
         {
             Nombre = string.Empty;
@@ -358,12 +411,25 @@ namespace ViewModel
             Activo = false;
         }
 
-        // Actions para comunicar con la Vista (más simple que eventos)
+        /// <summary>
+        /// Acción para comunicar con la Vista y abrir la ventana de nuevo socio
+        /// </summary>
         public Action VentanaNuevoSocio { get; set; }
+        
+        /// <summary>
+        /// Acción para comunicar con la Vista y solicitar confirmación de eliminación
+        /// </summary>
         public Action<(int IdSocio, string Nombre)> ConfirmarEliminar { get; set; }
 
-        // INotifyPropertyChanged
+        /// <summary>
+        /// Evento que notifica cambios en las propiedades para actualizar la interfaz
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Método auxiliar para invocar el evento PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad que cambió</param>
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

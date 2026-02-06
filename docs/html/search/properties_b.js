@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['nombre_0',['Nombre',['../class_model_1_1_actividad.html#ac69d854412fca6369092818470d91608',1,'Model.Actividad.Nombre'],['../class_model_1_1_socio.html#a7a1876338702e8d739bf50bfb5644ff3',1,'Model.Socio.Nombre'],['../class_view_model_1_1_actividad_view_model.html#a06567c49e03fc2db8b91f1de656a6caf',1,'ViewModel.ActividadViewModel.Nombre'],['../class_view_model_1_1_nueva_actividad_view_model.html#adfce193ccbb66f673de1c199fa58c7ce',1,'ViewModel.NuevaActividadViewModel.Nombre'],['../class_view_model_1_1_nuevo_socio_view_model.html#a07876f6d9955ed348adf8ad70f873a22',1,'ViewModel.NuevoSocioViewModel.Nombre'],['../class_view_model_1_1_socio_view_model.html#a4a13c26b631009b071af11f142a300b1',1,'ViewModel.SocioViewModel.Nombre']]],
+  ['nuevacommand_1',['NuevaCommand',['../class_view_model_1_1_reserva_view_model.html#ae17c65ed07c2b37941612a7ce837817b',1,'ViewModel::ReservaViewModel']]],
+  ['nuevocommand_2',['NuevoCommand',['../class_view_model_1_1_actividad_view_model.html#a92fd4365251070209ad24a04161c084b',1,'ViewModel.ActividadViewModel.NuevoCommand'],['../class_view_model_1_1_socio_view_model.html#a9ecb7cd7b8dbf4f3b761db41c030e22a',1,'ViewModel.SocioViewModel.NuevoCommand']]]
+];

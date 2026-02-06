@@ -8,50 +8,79 @@ using Model.DataSets;
 
 namespace Model.Repositorios
 {
+    /// <summary>
+    /// Repositorio para gestionar las operaciones de acceso a datos de reservas
+    /// </summary>
     public class ReservaRepositorio
     {
-        // Instancia del contexto de la base de datos
+        /// <summary>
+        /// Instancia del contexto de la base de datos
+        /// </summary>
         private readonly CentroDeportivoEntities _context = new CentroDeportivoEntities();
 
-        // Obtiene todas las reservas
+        /// <summary>
+        /// Obtiene todas las reservas de la base de datos incluyendo sus socios y actividades
+        /// </summary>
+        /// <returns>Lista de todas las reservas con sus entidades relacionadas</returns>
         public async Task<List<Reserva>> SeleccionarAsync()
         {
             return await _context.Reserva.Include("Socio").Include("Actividad").ToListAsync();
         }
 
-        // Crea un nueva reserva
+        /// <summary>
+        /// Crea una nueva reserva en la base de datos
+        /// </summary>
+        /// <param name="reserva">Reserva a crear</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         public async Task CrearAsync(Reserva reserva)
         {
             _context.Reserva.Add(reserva);
             await _context.SaveChangesAsync();
         }
 
-        // Guarda los cambios realizados en una reserva
+        /// <summary>
+        /// Guarda los cambios realizados en una reserva
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         public async Task GuardarAsync()
         {
             await _context.SaveChangesAsync();
         }
 
-        // Elimina una reserva
+        /// <summary>
+        /// Elimina una reserva de la base de datos
+        /// </summary>
+        /// <param name="reserva">Reserva a eliminar</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         public async Task EliminarAsync(Reserva reserva)
         {
             _context.Reserva.Remove(reserva);
             await _context.SaveChangesAsync();
         }
 
-        // Inicia una transacción en base de datos
+        /// <summary>
+        /// Inicia una transacción en la base de datos
+        /// </summary>
+        /// <returns>Objeto que representa la transacción iniciada</returns>
         public DbContextTransaction IniciarTransaccion()
         {
             return _context.Database.BeginTransaction();
         }
 
-        // Obtiene el contexto actual (para operaciones dentro de transacciones)
+        /// <summary>
+        /// Obtiene el contexto actual de Entity Framework
+        /// </summary>
+        /// <returns>Contexto de Entity Framework para operaciones dentro de transacciones</returns>
         public CentroDeportivoEntities ObtenerContexto()
         {
             return _context;
         }
 
-        // Obtiene el DataSet de reservas por actividad para el informe
+        /// <summary>
+        /// Obtiene el DataSet de reservas por actividad optimizado para informes de Crystal Reports
+        /// </summary>
+        /// <param name="idActividad">Identificador de la actividad para filtrar las reservas</param>
+        /// <returns>DataSet tipado con las reservas de la actividad especificada</returns>
         public async Task<dsReservasPorActividad> ObtenerDataSetReservasPorActividadAsync(int idActividad)
         {
             // Consulta con LINQ
@@ -84,7 +113,10 @@ namespace Model.Repositorios
             return dataSet;
         }
 
-        // Obtiene el DataSet de historial de reservas para el informe
+        /// <summary>
+        /// Obtiene el DataSet de historial de reservas optimizado para informes de Crystal Reports
+        /// </summary>
+        /// <returns>DataSet tipado con el historial completo de reservas ordenado por socio y fecha</returns>
         public async Task<dsReservasHistorial> ObtenerDataSetReservasHistorialAsync()
         {
             // Consulta con LINQ

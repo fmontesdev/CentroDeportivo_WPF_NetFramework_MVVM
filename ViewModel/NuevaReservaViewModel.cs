@@ -14,12 +14,12 @@ using ViewModel.Services;
 
 namespace ViewModel
 {
-    // ViewModel para la ventana de creación de reservas (ventana modal)
-    // Implementa INotifyPropertyChanged para notificar cambios a la UI
-    // Usa validación con mensajes de error
+    /// <summary>
+    /// ViewModel para la ventana modal de creación de reservas.
+    /// Implementa validación, filtrado de socios/actividades y gestión de errores
+    /// </summary>
     public class NuevaReservaViewModel : INotifyPropertyChanged
     {
-        // Propiedades privadas
         private readonly ReservaService _reservaService;
         private readonly SocioService _socioService;
         private readonly ActividadService _actividadService;
@@ -28,19 +28,32 @@ namespace ViewModel
         private DateTime? _fechaReserva;
         private string _errorMessage;
 
-        // Listas completas para filtrado (privadas, solo accesibles desde métodos del ViewModel)
         private List<Socio> _todosLosSocios;
         private List<Actividad> _todasLasActividades;
 
-        // Colecciones para los ComboBox
+        /// <summary>
+        /// Colección observable de socios para el ComboBox con filtrado
+        /// </summary>
         public ObservableCollection<Socio> Socios { get; set; }
+        
+        /// <summary>
+        /// Colección observable de actividades para el ComboBox con filtrado
+        /// </summary>
         public ObservableCollection<Actividad> Actividades { get; set; }
 
-        // Propiedades adicionales para que la vista pueda consultar el Count sin conocer los tipos
+        /// <summary>
+        /// Número de socios en la colección filtrada
+        /// </summary>
         public int SociosCount => Socios?.Count ?? 0;
+        
+        /// <summary>
+        /// Número de actividades en la colección filtrada
+        /// </summary>
         public int ActividadesCount => Actividades?.Count ?? 0;
 
-        // Socio seleccionado (enlazado al ComboBox)
+        /// <summary>
+        /// Socio seleccionado en el ComboBox
+        /// </summary>
         public Socio SocioSeleccionado
         {
             get => _socioSeleccionado;
@@ -51,7 +64,9 @@ namespace ViewModel
             }
         }
 
-        // Actividad seleccionada (enlazado al ComboBox)
+        /// <summary>
+        /// Actividad seleccionada en el ComboBox
+        /// </summary>
         public Actividad ActividadSeleccionada
         {
             get => _actividadSeleccionada;
@@ -62,7 +77,9 @@ namespace ViewModel
             }
         }
 
-        // Fecha de reserva (enlazada al DatePicker)
+        /// <summary>
+        /// Fecha de la reserva enlazada al DatePicker
+        /// </summary>
         public DateTime? FechaReserva
         {
             get => _fechaReserva;
@@ -73,7 +90,9 @@ namespace ViewModel
             }
         }
 
-        // Mensaje de error
+        /// <summary>
+        /// Mensaje de error para mostrar al usuario
+        /// </summary>
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -85,16 +104,24 @@ namespace ViewModel
             }
         }
 
-        // Indica si hay un error para mostrar en la UI
+        /// <summary>
+        /// Indica si hay un error activo para mostrar en la interfaz
+        /// </summary>
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
-        // Command para crear la reserva
+        /// <summary>
+        /// Comando para crear la reserva y cerrar la ventana
+        /// </summary>
         public ICommand CrearCommand { get; }
 
-        // Command para cerrar la ventana sin guardar
+        /// <summary>
+        /// Comando para cerrar la ventana sin guardar
+        /// </summary>
         public ICommand CancelarCommand { get; }
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa los servicios, comandos y carga los datos iniciales
+        /// </summary>
         public NuevaReservaViewModel()
         {
             _reservaService = new ReservaService();
@@ -115,7 +142,9 @@ namespace ViewModel
             CargarDatos();
         }
 
-        // Carga los socios y actividades disponibles
+        /// <summary>
+        /// Carga los socios activos y actividades disponibles desde la base de datos
+        /// </summary>
         private async void CargarDatos()
         {
             try
@@ -146,8 +175,11 @@ namespace ViewModel
             }
         }
 
-        // Filtra los socios según el criterio de búsqueda
-        // Método público para que la vista pueda invocar el filtrado
+        /// <summary>
+        /// Filtra los socios según el criterio de búsqueda.
+        /// Método público para que la vista pueda invocar el filtrado
+        /// </summary>
+        /// <param name="criterio">Texto de búsqueda para filtrar por nombre de socio</param>
         public void FiltrarSocios(string criterio)
         {
             // Si la lista de socios está vacia, no hacer nada
@@ -175,8 +207,11 @@ namespace ViewModel
             }
         }
 
-        // Filtra las actividades según el criterio de búsqueda
-        // Método público para que la vista pueda invocar el filtrado
+        /// <summary>
+        /// Filtra las actividades según el criterio de búsqueda.
+        /// Método público para que la vista pueda invocar el filtrado
+        /// </summary>
+        /// <param name="criterio">Texto de búsqueda para filtrar por nombre de actividad</param>
         public void FiltrarActividades(string criterio)
         {
             // Si la lista de actividades está vacia, no hacer nada
@@ -204,7 +239,9 @@ namespace ViewModel
             }
         }
 
-        // Crea la reserva en la base de datos
+        /// <summary>
+        /// Crea una nueva reserva en la base de datos después de validar el formulario
+        /// </summary>
         private async void CrearReserva()
         {
             // Valida el formulario y crea la reserva
@@ -246,8 +283,10 @@ namespace ViewModel
             }
         }
 
-        // Valida los campos del formulario
-        // Devuelve true si todo es válido, false si hay errores
+        /// <summary>
+        /// Valida los campos del formulario de creación de reserva
+        /// </summary>
+        /// <returns>True si todos los datos son válidos, false si hay errores</returns>
         public bool ValidarFormulario()
         {
             // Validación del Socio
@@ -280,19 +319,33 @@ namespace ViewModel
             return true;
         }
 
-        // Cancela la operación y cierra la ventana
+        /// <summary>
+        /// Cancela la operación y cierra la ventana sin guardar
+        /// </summary>
         private void Cancelar()
         {
             CerrarVentanaCancelar?.Invoke();
         }
 
-        // Actions para cerrar la ventana (más simple que eventos)
-        // La vista asigna estas acciones al crear el ViewModel
+        /// <summary>
+        /// Acción para comunicar con la Vista y cerrar la ventana tras éxito
+        /// </summary>
         public Action CerrarVentanaExito { get; set; }
+        
+        /// <summary>
+        /// Acción para comunicar con la Vista y cerrar la ventana tras cancelar
+        /// </summary>
         public Action CerrarVentanaCancelar { get; set; }
 
-        // INotifyPropertyChanged
+        /// <summary>
+        /// Evento que notifica cambios en las propiedades para actualizar la interfaz
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Método auxiliar para invocar el evento PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad que cambió</param>
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

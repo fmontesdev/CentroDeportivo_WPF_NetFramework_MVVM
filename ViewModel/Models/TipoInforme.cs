@@ -6,16 +6,24 @@ using System.Threading.Tasks;
 
 namespace ViewModel.Models
 {
-    // Enumeración que representa los tipos de informes disponibles
+    /// <summary>
+    /// Enumeración que define los tipos de informes disponibles en el sistema
+    /// </summary>
     public enum TipoInforme
     {
-        // Informe maestro de socios (listado completo)
+        /// <summary>
+        /// Informe maestro de socios (listado completo con estado)
+        /// </summary>
         ListadoSocios,
 
-        // Informe de reservas filtrado por actividad
+        /// <summary>
+        /// Informe de reservas filtrado por actividad con cálculo de ocupación
+        /// </summary>
         ListadoReservasPorActividad,
 
-        // Informe de historial de reservas agrupado por socio
+        /// <summary>
+        /// Informe de historial de reservas agrupado por socio y ordenado cronológicamente
+        /// </summary>
         HistorialReservas
     }
 }

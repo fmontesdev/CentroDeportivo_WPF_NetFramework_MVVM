@@ -5,14 +5,17 @@ using ViewModel.Command;
 
 namespace ViewModel
 {
-    // ViewModel para la ventana principal (MainWindow)
-    // Maneja la navegación entre vistas
+    /// <summary>
+    /// ViewModel para la ventana principal (MainWindow).
+    /// Maneja la navegación entre vistas y coordina la interfaz principal de la aplicación
+    /// </summary>
     public class MainViewModel : INotifyPropertyChanged
     {
-        // Propiedades privadas
         private string _titulo;
 
-        // Título de la ventana
+        /// <summary>
+        /// Título de la ventana principal que cambia según la vista activa
+        /// </summary>
         public string Titulo
         {
             get => _titulo;
@@ -23,14 +26,34 @@ namespace ViewModel
             }
         }
 
-        // Commands para navegación
+        /// <summary>
+        /// Comando para mostrar la vista de reservas
+        /// </summary>
         public ICommand MostrarReservasCommand { get; }
+        
+        /// <summary>
+        /// Comando para mostrar la vista de socios
+        /// </summary>
         public ICommand MostrarSociosCommand { get; }
+        
+        /// <summary>
+        /// Comando para mostrar la vista de actividades
+        /// </summary>
         public ICommand MostrarActividadesCommand { get; }
+        
+        /// <summary>
+        /// Comando para mostrar la vista de informes
+        /// </summary>
         public ICommand MostrarInformesCommand { get; }
+        
+        /// <summary>
+        /// Comando para salir de la aplicación
+        /// </summary>
         public ICommand SalirCommand { get; }
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa todos los comandos de navegación
+        /// </summary>
         public MainViewModel()
         {
             // Inicializar Commands
@@ -41,48 +64,77 @@ namespace ViewModel
             SalirCommand = new RelayCommand(Salir);
         }
 
-        // Inicializa la vista por defecto (llamado desde MainWindow)
+        /// <summary>
+        /// Inicializa la vista por defecto mostrando las reservas
+        /// </summary>
         public void InicializarVistaInicial()
         {
             MostrarReservas();
         }
 
-        // Métodos de navegación
+        /// <summary>
+        /// Cambia a la vista de reservas
+        /// </summary>
         private void MostrarReservas()
         {
             CambiarVista?.Invoke("Reservas");
             Titulo = "Gestión de Reservas";
         }
 
+        /// <summary>
+        /// Cambia a la vista de socios
+        /// </summary>
         private void MostrarSocios()
         {
             CambiarVista?.Invoke("Socios");
             Titulo = "Gestión de Socios";
         }
 
+        /// <summary>
+        /// Cambia a la vista de actividades
+        /// </summary>
         private void MostrarActividades()
         {
             CambiarVista?.Invoke("Actividades");
             Titulo = "Gestión de Actividades";
         }
 
+        /// <summary>
+        /// Cambia a la vista de informes
+        /// </summary>
         private void MostrarInformes()
         {
             CambiarVista?.Invoke("Informes");
             Titulo = "Informes";
         }
 
+        /// <summary>
+        /// Solicita cerrar la aplicación
+        /// </summary>
         private void Salir()
         {
             SolicitarCerrar?.Invoke();
         }
 
-        // Actions para comunicar con la Vista (más simple que eventos)
+        /// <summary>
+        /// Acción para comunicar con la Vista y cambiar de vista activa
+        /// </summary>
         public Action<string> CambiarVista { get; set; }
+        
+        /// <summary>
+        /// Acción para comunicar con la Vista y solicitar el cierre de la aplicación
+        /// </summary>
         public Action SolicitarCerrar { get; set; }
 
-        // INotifyPropertyChanged
+        /// <summary>
+        /// Evento que notifica cambios en las propiedades para actualizar la interfaz
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Método auxiliar para invocar el evento PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad que cambió</param>
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

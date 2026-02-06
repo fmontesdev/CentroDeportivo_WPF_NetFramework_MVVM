@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['haserror_0',['HasError',['../class_view_model_1_1_actividad_view_model.html#aebbb24776aeed3665d4f09d2562b6afa',1,'ViewModel.ActividadViewModel.HasError'],['../class_view_model_1_1_nueva_actividad_view_model.html#ab1e7874ae451d792ac78e04f8587fef4',1,'ViewModel.NuevaActividadViewModel.HasError'],['../class_view_model_1_1_nueva_reserva_view_model.html#a548f689df6f5996d31aee76d4f8fea50',1,'ViewModel.NuevaReservaViewModel.HasError'],['../class_view_model_1_1_nuevo_socio_view_model.html#ad12fa521f1b596c4c96014b23f0fb29a',1,'ViewModel.NuevoSocioViewModel.HasError'],['../class_view_model_1_1_reserva_view_model.html#adc201e554170ecfd178f05280a2b9742',1,'ViewModel.ReservaViewModel.HasError'],['../class_view_model_1_1_socio_view_model.html#a6db60b17f582c7af64fff3cd4075ec43',1,'ViewModel.SocioViewModel.HasError']]]
+];

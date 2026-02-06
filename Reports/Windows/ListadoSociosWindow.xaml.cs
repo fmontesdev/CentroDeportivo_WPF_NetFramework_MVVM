@@ -5,11 +5,18 @@ using Reports.Reports;
 
 namespace Reports.Windows
 {
-    // Informe listado de socios
+    /// <summary>
+    /// Ventana para visualizar el informe de listado de socios con Crystal Reports.
+    /// Muestra todos los socios registrados en el sistema con su estado
+    /// </summary>
     public partial class ListadoSociosWindow : Window
     {
         private ListadoSocios _report;
 
+        /// <summary>
+        /// Constructor que inicializa la ventana y carga el informe de Crystal Reports
+        /// </summary>
+        /// <param name="dataSet">DataSet tipado con los datos de los socios</param>
         public ListadoSociosWindow(dsSocios dataSet)
         {
             InitializeComponent();
@@ -36,7 +43,10 @@ namespace Reports.Windows
             }
         }
 
-        // Libera recursos cuando se cierra la ventana
+        /// <summary>
+        /// Libera los recursos del informe cuando se cierra la ventana
+        /// </summary>
+        /// <param name="e">Argumentos del evento</param>
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);

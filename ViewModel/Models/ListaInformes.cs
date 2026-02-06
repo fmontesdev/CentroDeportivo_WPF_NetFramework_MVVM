@@ -2,10 +2,15 @@
 
 namespace ViewModel.Models
 {
-    // Clase que contiene la lista de informes disponibles en el sistema
+    /// <summary>
+    /// Clase estática que proporciona la lista de informes disponibles en el sistema
+    /// </summary>
     public static class ListaInformes
     {
-        // Obtiene la lista de todos los informes disponibles
+        /// <summary>
+        /// Obtiene la lista de todos los informes disponibles con su configuración
+        /// </summary>
+        /// <returns>Lista de objetos Informe con los informes del sistema</returns>
         public static List<Informe> ObtenerInformesDisponibles()
         {
             return new List<Informe>

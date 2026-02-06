@@ -17,9 +17,15 @@ using CentroDeportivo.Windows;
 
 namespace CentroDeportivo.Views
 {
-    // Code-behind para ReservasView.xaml
+    /// <summary>
+    /// Code-behind para ReservasView.xaml.
+    /// Vista principal para la gestión de reservas del centro deportivo con filtrado
+    /// </summary>
     public partial class ReservasView : UserControl
     {
+        /// <summary>
+        /// Constructor que inicializa la vista y configura el ViewModel
+        /// </summary>
         public ReservasView()
         {
             InitializeComponent();
@@ -35,7 +41,9 @@ namespace CentroDeportivo.Views
             this.DataContext = viewModel;
         }
 
-        // Abre la ventana modal para crear una nueva reserva
+        /// <summary>
+        /// Abre la ventana modal para crear una nueva reserva
+        /// </summary>
         private void VentanaNuevaReserva()
         {
             var ventana = new NuevaReservaWindow();
@@ -48,7 +56,10 @@ namespace CentroDeportivo.Views
             }
         }
 
-        // Muestra un MessageBox de confirmación antes de cancelar
+        /// <summary>
+        /// Muestra un diálogo de confirmación antes de cancelar una reserva
+        /// </summary>
+        /// <param name="info">Tupla con el ID de reserva, nombre del socio y nombre de la actividad</param>
         private void ConfirmarCancelar((int IdReserva, string NombreSocio, string NombreActividad) info)
         {
             var resultado = MessageBox.Show(
@@ -67,7 +78,11 @@ namespace CentroDeportivo.Views
             }
         }
 
-        // Maneja la visibilidad de los placeholders
+        /// <summary>
+        /// Maneja la visibilidad de los placeholders de los TextBox de búsqueda
+        /// </summary>
+        /// <param name="sender">TextBox que disparó el evento</param>
+        /// <param name="e">Argumentos del evento</param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;

@@ -8,51 +8,78 @@ using Model.DataSets;
 
 namespace Model.Repositorios
 {
+    /// <summary>
+    /// Repositorio para gestionar las operaciones de acceso a datos de socios
+    /// </summary>
     public class SocioRepositorio
     {
-        // Instancia del contexto de la base de datos
+        /// <summary>
+        /// Instancia del contexto de la base de datos
+        /// </summary>
         private readonly CentroDeportivoEntities _context = new CentroDeportivoEntities();
 
-        //Obtiene todos los socios
+        /// <summary>
+        /// Obtiene todos los socios de la base de datos incluyendo sus reservas
+        /// </summary>
+        /// <returns>Lista de todos los socios con sus reservas asociadas</returns>
         public async Task<List<Socio>> SeleccionarAsync()
         {
             return await _context.Socio.Include("Reserva").ToListAsync();
         }
 
-        // Crea un nuevo socio
+        /// <summary>
+        /// Crea un nuevo socio en la base de datos
+        /// </summary>
+        /// <param name="entity">Socio a crear</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         public async Task CrearAsync(Socio entity)
         {
             _context.Socio.Add(entity);
             await _context.SaveChangesAsync();
         }
 
-        // Guarda los cambios realizados en un socio
+        /// <summary>
+        /// Guarda los cambios realizados en un socio
+        /// </summary>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         public async Task GuardarAsync()
         {
             await _context.SaveChangesAsync();
         }
 
-        // Elimina un socio
+        /// <summary>
+        /// Elimina un socio de la base de datos
+        /// </summary>
+        /// <param name="entity">Socio a eliminar</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         public async Task EliminarAsync(Socio entity)
         {
             _context.Socio.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
-        // Inicia una transacción en base de datos
+        /// <summary>
+        /// Inicia una transacción en la base de datos
+        /// </summary>
+        /// <returns>Objeto que representa la transacción iniciada</returns>
         public DbContextTransaction IniciarTransaccion()
         {
             return _context.Database.BeginTransaction();
         }
 
-        // Obtiene el contexto actual (para operaciones dentro de transacciones)
+        /// <summary>
+        /// Obtiene el contexto actual de Entity Framework
+        /// </summary>
+        /// <returns>Contexto de Entity Framework para operaciones dentro de transacciones</returns>
         public CentroDeportivoEntities ObtenerContexto()
         {
             return _context;
         }
 
-        // Obtiene el DataSet de socios para el informe
-        // Consulta optimizada para Crystal Reports
+        /// <summary>
+        /// Obtiene el DataSet de socios optimizado para informes de Crystal Reports
+        /// </summary>
+        /// <returns>DataSet tipado con la información de todos los socios</returns>
         public async Task<dsSocios> ObtenerDataSetSociosAsync()
         {
             // Obtener todos los socios

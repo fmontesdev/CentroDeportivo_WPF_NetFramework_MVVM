@@ -17,9 +17,15 @@ using CentroDeportivo.Windows;
 
 namespace CentroDeportivo.Views
 {
-    // Code-behind para ActividadesView.xaml
+    /// <summary>
+    /// Code-behind para ActividadesView.xaml.
+    /// Vista principal para la gestión de actividades del centro deportivo
+    /// </summary>
     public partial class ActividadesView : UserControl
     {
+        /// <summary>
+        /// Constructor que inicializa la vista y configura el ViewModel
+        /// </summary>
         public ActividadesView()
         {
             InitializeComponent();
@@ -35,7 +41,9 @@ namespace CentroDeportivo.Views
             this.DataContext = viewModel;
         }
 
-        // Abre la ventana modal para crear una nueva actividad
+        /// <summary>
+        /// Abre la ventana modal para crear una nueva actividad
+        /// </summary>
         private void VentanaNuevaActividad()
         {
             var ventana = new NuevaActividadWindow();
@@ -48,7 +56,10 @@ namespace CentroDeportivo.Views
             }
         }
 
-        // Muestra un MessageBox de confirmación antes de eliminar
+        /// <summary>
+        /// Muestra un diálogo de confirmación antes de eliminar una actividad
+        /// </summary>
+        /// <param name="info">Tupla con el ID y nombre de la actividad a eliminar</param>
         private void ConfirmarEliminar((int IdActividad, string Nombre) info)
         {
             var resultado = MessageBox.Show(

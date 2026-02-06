@@ -13,18 +13,20 @@ using ViewModel.Services;
 
 namespace ViewModel
 {
-    // ViewModel para la ventana de creación de socios (ventana modal)
-    // Implementa INotifyPropertyChanged para notificar cambios a la UI
-    // Usa validación con mensajes de error
+    /// <summary>
+    /// ViewModel para la ventana modal de creación de socios.
+    /// Implementa validación y gestión de errores para el formulario de nuevo socio
+    /// </summary>
     public class NuevoSocioViewModel : INotifyPropertyChanged
     {
-        // Propiedades privadas
         private readonly SocioService _socioService;
         private string _nombre;
         private string _email;
         private string _errorMessage;
 
-        // Nombre del socio (enlazado al TextBox)
+        /// <summary>
+        /// Nombre del socio enlazado al TextBox
+        /// </summary>
         public string Nombre
         {
             get => _nombre;
@@ -35,7 +37,9 @@ namespace ViewModel
             }
         }
 
-        // Email del socio (enlazado al TextBox)
+        /// <summary>
+        /// Email del socio enlazado al TextBox
+        /// </summary>
         public string Email
         {
             get => _email;
@@ -46,7 +50,9 @@ namespace ViewModel
             }
         }
 
-        // Mensaje de error
+        /// <summary>
+        /// Mensaje de error para mostrar al usuario
+        /// </summary>
         public string ErrorMessage
         {
             get => _errorMessage;
@@ -58,16 +64,24 @@ namespace ViewModel
             }
         }
 
-        // Indica si hay un error para mostrar en la UI
+        /// <summary>
+        /// Indica si hay un error activo para mostrar en la interfaz
+        /// </summary>
         public bool HasError => !string.IsNullOrEmpty(ErrorMessage);
 
-        // Command para crear el socio
+        /// <summary>
+        /// Comando para crear el socio y cerrar la ventana
+        /// </summary>
         public ICommand CrearCommand { get; }
 
-        // Command para cerrar la ventana sin guardar
+        /// <summary>
+        /// Comando para cerrar la ventana sin guardar
+        /// </summary>
         public ICommand CancelarCommand { get; }
 
-        // Constructor
+        /// <summary>
+        /// Constructor que inicializa el servicio y los comandos
+        /// </summary>
         public NuevoSocioViewModel()
         {
             _socioService = new SocioService();
@@ -77,7 +91,9 @@ namespace ViewModel
             CancelarCommand = new RelayCommand(Cancelar);
         }
 
-        // Crea el socio en la base de datos
+        /// <summary>
+        /// Crea un nuevo socio en la base de datos después de validar el formulario
+        /// </summary>
         private async void CrearSocio()
         {
             // Valida el formulario y crea el socio
@@ -114,8 +130,10 @@ namespace ViewModel
             }
         }
 
-        // Valida los campos del formulario
-        // Devuelve true si todo es válido, false si hay errores
+        /// <summary>
+        /// Valida los campos del formulario de creación de socio
+        /// </summary>
+        /// <returns>True si todos los datos son válidos, false si hay errores</returns>
         public bool ValidarFormulario()
         {
             // Patrón de email
@@ -156,19 +174,33 @@ namespace ViewModel
             return true;
         }
 
-        // Cancela la operación y cierra la ventana
+        /// <summary>
+        /// Cancela la operación y cierra la ventana sin guardar
+        /// </summary>
         private void Cancelar()
         {
             CerrarVentanaCancelar?.Invoke();
         }
 
-        // Actions para cerrar la ventana (más simple que eventos)
-        // La vista asigna estas acciones al crear el ViewModel
+        /// <summary>
+        /// Acción para comunicar con la Vista y cerrar la ventana tras éxito
+        /// </summary>
         public Action CerrarVentanaExito { get; set; }
+        
+        /// <summary>
+        /// Acción para comunicar con la Vista y cerrar la ventana tras cancelar
+        /// </summary>
         public Action CerrarVentanaCancelar { get; set; }
 
-        // INotifyPropertyChanged
+        /// <summary>
+        /// Evento que notifica cambios en las propiedades para actualizar la interfaz
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Método auxiliar para invocar el evento PropertyChanged
+        /// </summary>
+        /// <param name="propertyName">Nombre de la propiedad que cambió</param>
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

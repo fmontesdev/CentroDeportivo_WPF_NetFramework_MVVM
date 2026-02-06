@@ -12,18 +12,38 @@ namespace Model
     using System;
     using System.Collections.Generic;
     
+    /// <summary>
+    /// Representa una actividad deportiva del centro
+    /// </summary>
     public partial class Actividad
     {
+        /// <summary>
+        /// Constructor por defecto. Inicializa la colección de reservas
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Actividad()
         {
             this.Reserva = new HashSet<Reserva>();
         }
     
+        /// <summary>
+        /// Identificador único de la actividad
+        /// </summary>
         public int IdActividad { get; set; }
+        
+        /// <summary>
+        /// Nombre de la actividad deportiva
+        /// </summary>
         public string Nombre { get; set; }
+        
+        /// <summary>
+        /// Número máximo de socios que pueden reservar esta actividad simultáneamente en la misma fecha
+        /// </summary>
         public int AforoMaximo { get; set; }
     
+        /// <summary>
+        /// Colección de reservas asociadas a esta actividad
+        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reserva> Reserva { get; set; }
     }

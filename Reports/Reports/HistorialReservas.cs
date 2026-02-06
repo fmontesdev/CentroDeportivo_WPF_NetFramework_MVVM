@@ -15,7 +15,10 @@ namespace Reports.Reports {
     using CrystalDecisions.ReportSource;
     using CrystalDecisions.CrystalReports.Engine;
     
-    
+    /// <summary>
+    /// Clase auto-generada por Crystal Reports para el informe de historial de reservas.
+    /// Define la estructura y configuración del reporte HistorialReservas.rpt
+    /// </summary>
     public class HistorialReservas : ReportClass {
         
         public HistorialReservas() {
@@ -105,6 +108,10 @@ namespace Reports.Reports {
         }
     }
     
+    /// <summary>
+    /// Clase auto-generada para el caché del informe de historial de reservas.
+    /// Gestiona el almacenamiento en caché del reporte para mejorar el rendimiento
+    /// </summary>
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
     public class CachedHistorialReservas : Component, ICachedReport {
         

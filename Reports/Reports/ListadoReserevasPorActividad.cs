@@ -15,7 +15,10 @@ namespace Reports.Reports {
     using CrystalDecisions.ReportSource;
     using CrystalDecisions.CrystalReports.Engine;
     
-    
+    /// <summary>
+    /// Clase auto-generada por Crystal Reports para el informe de reservas por actividad.
+    /// Define la estructura y configuración del reporte ListadoReserevasPorActividad.rpt
+    /// </summary>
     public class ListadoReserevasPorActividad : ReportClass {
         
         public ListadoReserevasPorActividad() {
@@ -97,6 +100,10 @@ namespace Reports.Reports {
         }
     }
     
+    /// <summary>
+    /// Clase auto-generada para el caché del informe de reservas por actividad.
+    /// Gestiona el almacenamiento en caché del reporte para mejorar el rendimiento
+    /// </summary>
     [System.Drawing.ToolboxBitmapAttribute(typeof(CrystalDecisions.Shared.ExportOptions), "report.bmp")]
     public class CachedListadoReserevasPorActividad : Component, ICachedReport {
         

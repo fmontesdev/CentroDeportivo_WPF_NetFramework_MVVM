@@ -5,10 +5,18 @@ using Reports.Reports;
 
 namespace Reports.Windows
 {
+    /// <summary>
+    /// Ventana para visualizar el informe de historial de reservas con Crystal Reports.
+    /// Muestra el historial completo de reservas agrupado por socio y ordenado cronológicamente
+    /// </summary>
     public partial class HistorialReservasWindow : Window
     {
         private HistorialReservas _report;
 
+        /// <summary>
+        /// Constructor que inicializa la ventana y carga el informe de Crystal Reports
+        /// </summary>
+        /// <param name="dataSet">DataSet tipado con el historial de reservas</param>
         public HistorialReservasWindow(dsReservasHistorial dataSet)
         {
             InitializeComponent();
@@ -37,7 +45,10 @@ namespace Reports.Windows
             }
         }
 
-        // Libera recursos cuando se cierra la ventana
+        /// <summary>
+        /// Libera los recursos del informe cuando se cierra la ventana
+        /// </summary>
+        /// <param name="e">Argumentos del evento</param>
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);

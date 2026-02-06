@@ -6,14 +6,32 @@ using System.Threading.Tasks;
 
 namespace Testing
 {
+    /// <summary>
+    /// Clase de pruebas unitarias para validar el control de aforo máximo en actividades.
+    /// Verifica que el sistema rechace reservas cuando se alcanza el aforo máximo de una actividad
+    /// </summary>
     [TestClass]
     public sealed class TestAforoMaximo
     {
-        // Datos de prueba
+        /// <summary>
+        /// Actividad de prueba con aforo máximo de 1 persona
+        /// </summary>
         private Actividad actividad;
+        
+        /// <summary>
+        /// Primer socio de prueba para las reservas
+        /// </summary>
         private Socio socio1;
+        
+        /// <summary>
+        /// Segundo socio de prueba para las reservas
+        /// </summary>
         private Socio socio2;
 
+        /// <summary>
+        /// Método de inicialización que se ejecuta antes de cada prueba.
+        /// Configura los datos de prueba con una actividad de aforo 1 y dos socios
+        /// </summary>
         [TestInitialize]
         public void Setup()
         {
@@ -38,6 +56,12 @@ namespace Testing
             };
         }
 
+        /// <summary>
+        /// Prueba de integración que verifica el control de aforo máximo en actividades.
+        /// Crea una actividad con aforo 1, realiza una primera reserva (debe tener éxito),
+        /// e intenta una segunda reserva (debe ser rechazada con excepción de aforo completo).
+        /// Al finalizar, limpia todos los datos de prueba de la base de datos
+        /// </summary>
         [TestMethod]
         public async Task TestControlAforo_ActividadConAforoUno_SegundaReservaDenegada()
         {
@@ -136,7 +160,14 @@ namespace Testing
             }
         }
 
-        // Método auxiliar simple para eliminar con manejo de errores
+        /// <summary>
+        /// Método auxiliar genérico para eliminar datos de prueba de la base de datos.
+        /// Ignora errores durante la eliminación para no interferir con las pruebas
+        /// </summary>
+        /// <typeparam name="T">Tipo de entidad a eliminar</typeparam>
+        /// <param name="entidad">Entidad a eliminar</param>
+        /// <param name="eliminar">Función de eliminación del servicio</param>
+        /// <returns>Tarea que representa la operación asíncrona</returns>
         private async Task EliminarDatos<T>(T entidad, Func<T, Task> eliminar) where T : class
         {
             try
