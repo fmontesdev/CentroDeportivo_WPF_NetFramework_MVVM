@@ -12,7 +12,7 @@
 
 Documentación técnica completa del código fuente, generada automáticamente con Doxygen. Incluye documentación completa de clases, métodos y propiedades
 
-> **💡 Nota**: La documentación Doxygen se abre en una nueva pestaña mediante [htmlpreview.github.io](https://htmlpreview.github.io/), un servicio que permite visualizar archivos HTML alojados en GitHub. Para un acceso más rápido, considera habilitar [GitHub Pages](https://docs.github.com/es/pages/getting-started-with-github-pages/creating-a-github-pages-site) en la configuración del repositorio.
+> **💡 Nota**: La documentación Doxygen se abre en una nueva pestaña mediante [htmlpreview.github.io](https://htmlpreview.github.io/), un servicio que permite visualizar archivos HTML alojados en GitHub. Para un acceso más rápido, acceder a la ubicación de la documentación en el directorio `/docs/html/index.html`
 
 
 ## 📖 Documentación Técnica y Manual de Usuario
