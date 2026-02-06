@@ -8,14 +8,16 @@
 
 ## 📖 Documentación del Código (Doxygen)
 
-**➡️ <a href="docs/html/index.html" target="_blank" rel="noopener noreferrer">Documentación API Generada por Doxygen</a>**
+**➡️ [Documentación API Generada por Doxygen](https://htmlpreview.github.io/?https://github.com/fmontesdev/CentroDeportivo_WPF_NetFramework_MVVM/blob/master/docs/html/index.html)**
 
 Documentación técnica completa del código fuente, generada automáticamente con Doxygen. Incluye documentación completa de clases, métodos y propiedades
+
+> **💡 Nota**: La documentación Doxygen se abre en una nueva pestaña mediante [htmlpreview.github.io](https://htmlpreview.github.io/), un servicio que permite visualizar archivos HTML alojados en GitHub. Para un acceso más rápido, considera habilitar [GitHub Pages](https://docs.github.com/es/pages/getting-started-with-github-pages/creating-a-github-pages-site) en la configuración del repositorio.
 
 
 ## 📖 Documentación Técnica y Manual de Usuario
 
-**➡️ [Documentación Completa en GitBook](https://paco-montes.gitbook.io/paco-montes-docs)**
+**➡️ <a href="https://paco-montes.gitbook.io/paco-montes-docs" target="_blank" rel="noopener noreferrer">Documentación Completa en GitBook</a>**
 
 Accede a la documentación completa del proyecto, incluyendo: documentación técnica, y manual de usuario en formato web interactivo.
 
